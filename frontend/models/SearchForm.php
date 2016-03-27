@@ -108,6 +108,8 @@ class SearchForm extends Model
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        $current_time = date('Y-m-d H:i:s');
+        $query->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time'");
 
         $this->load(['id_object'=>$this->id_object, 'id_type'=>$this->id_type, 'id_town'=>$this->id_town,  'name'=>$this->name]);
 

@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Ad;
+use common\models\Content;
 
 /**
- * AdSearch represents the model behind the search form about `common\models\Ad`.
+ * ContentSearch represents the model behind the search form about `common\models\Content`.
  */
-class AdSearch extends Ad
+class ContentSearch extends Content
 {
     /**
      * @inheritdoc
@@ -18,9 +18,8 @@ class AdSearch extends Ad
     public function rules()
     {
         return [
-            [['id', 'id_user', 'id_object', 'id_town', 'id_type', 'views'], 'integer'],
-            [['name', 'text', 'address'], 'safe'],
-            [['price'], 'number'],
+            [['id', 'page', 'position'], 'integer'],
+            [['title', 'text'], 'safe'],
         ];
     }
 
@@ -42,7 +41,9 @@ class AdSearch extends Ad
      */
     public function search($params)
     {
-        $query = Ad::find();
+        $query = Content::find();
+
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,19 +57,15 @@ class AdSearch extends Ad
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_user' => $this->id_user,
-            'id_object' => $this->id_object,
-            'id_town' => $this->id_town,
-            'id_type' => $this->id_type,
-            'price' => $this->price,
-            'views' => $this->views,
+            'page' => $this->page,
+            'position' => $this->position,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'text', $this->text])
-            ->andFilterWhere(['like', 'address', $this->address]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'text', $this->text]);
 
         return $dataProvider;
     }

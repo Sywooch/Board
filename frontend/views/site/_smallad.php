@@ -9,9 +9,11 @@
 /* @var $model common\models\Board */
 
 use yii\helpers\Url;
+
+
 ?>
 
-<a href="<?= Url::toRoute(['board/view', 'id' => $model->id])?>" class="list-group-item">
+<a href="<?= Url::toRoute(['board/view', 'id' => $model->id])?>" class="list-group-item  marked_<?=$model->marked?>">
     <div class="media">
         <p class="pull-left">
             <?php
@@ -30,3 +32,4 @@ use yii\helpers\Url;
         </div>
     </div>
 </a>
+<br />

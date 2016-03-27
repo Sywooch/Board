@@ -54,6 +54,7 @@ class BoardSearch extends Board
     {
         $query = Board::find();
         $query->joinWith(['idObject', 'idType', 'idTown', 'idUser']);
+        $query->orderBy('date_create DESC');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -47,7 +47,8 @@ AppAsset::register($this);
             ['label' => 'Местонахождения'],
             ['label' => 'Регионы', 'url' => ['/region/index']],
             ['label' => 'Города', 'url' => ['/town/index']],
-
+            ['label' => 'Контент'],
+            ['label' => 'Тексты', 'url' => ['/content/index']],
         ]],
         ['label' => 'Выйти (' . Yii::$app->user->identity->fio . ')',
             'url' => ['/site/logout'],

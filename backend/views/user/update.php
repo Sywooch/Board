@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = 'Изменить';
 
         <?php $form = ActiveForm::begin(); ?>
 
+
         <?= $form->field($model, 'fio')->textInput() ?>
 
         <?= $form->field($model, 'agency')->textInput() ?>

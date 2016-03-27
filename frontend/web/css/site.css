@@ -152,4 +152,12 @@ a.desc:after {
         width: 100px;
     }
 }
-/* Hack for kartik image upload.  */
+
+/* Marked board  */
+.marked_1 {
+    background-color: #fbfe23;
+}
+.marked_2 {
+
+    border: solid 2px #EE0728;
+}

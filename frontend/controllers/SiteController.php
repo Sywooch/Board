@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Board;
+use common\models\Content;
 use frontend\models\SearchForm;
 use Yii;
 use common\models\LoginForm;
@@ -76,7 +77,8 @@ class SiteController extends Controller
     {
         $model = new SearchForm();
 
-        $last = Board::find()->where(['enable' => 1])->orderBy('date_create DESC')->limit(8)->all();
+        $current_time = date('Y-m-d H:i:s');
+        $last = Board::find()->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time' AND `enable` =1")->orderBy('date_create DESC')->limit(8)->all();
 
 
         return $this->render('index', [
@@ -144,7 +146,19 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about');
+        $text = '';
+        $title = 'О нас';
+        $model = Content::find()->where(['page' => Content::PAGE_ABOUT, 'position'=> Content::POS_MAIN])->one();
+
+        if ($model)
+        {
+            $title = $model->title;
+            $text = $model->text;
+        }
+        return $this->render('about',[
+            'text' => $text,
+            'title' => $title,
+        ]);
     }
 
     /**

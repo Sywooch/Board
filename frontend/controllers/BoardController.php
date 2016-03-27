@@ -98,6 +98,10 @@ class BoardController extends Controller
 
         $board_mail = $this->findModel($id);
 
+        if ($board_mail->load(Yii::$app->request->post()) && $board_mail->save()) {
+            return $this->redirect(['my']);
+        }
+
         return $this->render('viewmy', [
             'model' => $board_mail,
             'search' => $search,
@@ -184,7 +188,7 @@ class BoardController extends Controller
 
             // Save redirect
             Yii::$app->session->setFlash('success', '<h2 class="text-center">Ваше объявление, '. $model->name .', успешно добавлено</h2><p class="text-center">Оно будет опубликовано через 15 минут</p>');
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['viewmy', 'id' => $model->id]);
         } else {
             $params = Yii::$app->request->post();
             $model->setAttribute('id_object', $params['id_object']);
@@ -294,7 +298,7 @@ class BoardController extends Controller
                 break;
             }
             */
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['viewmy', 'id' => $model->id]);
         } else {
             if ($model->id_type==Board::TYPE_SALE)
                 $model->scenario = Board::SCENARIO_SALE;

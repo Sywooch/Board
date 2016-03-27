@@ -11,7 +11,7 @@
 use yii\helpers\Url;
 ?>
 
-<a href="<?= Url::toRoute(['board/viewmy', 'id' => $model->id])?>" class="list-group-item">
+<a href="<?= Url::toRoute(['board/viewmy', 'id' => $model->id])?>" class="list-group-item marked_<?=$model->marked?>">
     <div class="media">
         <p class="pull-left">
             <?php
@@ -26,7 +26,7 @@ use yii\helpers\Url;
             <p  class="list-group-item-text"><span class="glyphicon glyphicon-map-marker"></span> <?=$model->idTown->name?> <?=$model->address?> </p>
 
             <p class="list-group-item-text">Цена: <span class="label label-success"><?php if ($model->price) echo Yii::$app->formatter->asCurrency($model->price); else echo 'Не указана'; ?></span> </p>
-            <p  class="list-group-item-text"><span class="glyphicon glyphicon-eye-open"></span> <?=$model->looks?>  </p>
+            <p  class="list-group-item-text"><span class="glyphicon glyphicon-eye-open"></span> Просмотры <?=$model->looks?>;  <?php if (Yii::$app->user->can('agency')) { ?> Запрос контактов <span class="glyphicon glyphicon-user"></span> <?php echo $model->views;  } ?></p>
             <p class="text-muted pull-right">Опубликовано: <strong><?= Yii::$app->formatter->asDate($model->date_create, "php: d M H:i ") ?></strong> </p>
         </div>
     </div>

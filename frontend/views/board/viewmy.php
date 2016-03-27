@@ -10,7 +10,7 @@
 /* @var $model common\models\Board */
 
 use yii\bootstrap\Html;
-
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
 
@@ -78,7 +78,20 @@ $this->registerJs($script, yii\web\View::POS_END);
         ?>
     </div>
     <div class="col-md-4">
+        <?php if (Yii::$app->user->can('agency')) {
+            $form = ActiveForm::begin(); ?>
+            <h3>Выделить объявление</h3>
 
+            <?= $form->field($model, 'marked')->dropDownList($model->ListMarked()) ?>
+
+            <div class="form-group">
+                <?= Html::submitButton('Сохранить изменения', ['class' => 'btn btn-primary']) ?>
+            </div>
+
+            <?php
+            ActiveForm::end();
+        }
+        ?>
     </div>
 </div>
 <br /><hr />

@@ -228,7 +228,7 @@ class Board extends \yii\db\ActiveRecord
 
     public function ListMarked()
     {
-        $marked = [self::MARK_DEFAULT=>'Без подсветки', self::MARK_YELLOW => 'Желтое', self::MARK_RED => 'Красное'];
+        $marked = [self::MARK_DEFAULT=>'Без подсветки', self::MARK_YELLOW => 'Желтое', self::MARK_RED => 'Красная рамка'];
         return $marked;
     }
 
