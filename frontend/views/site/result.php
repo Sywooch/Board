@@ -6,7 +6,7 @@
  * Time: 22:52
  */
 
-
+use yii\widgets\ListView;
 ?>
 
 
@@ -21,12 +21,30 @@
 </div>
 <div class="col-md-8">
     <?php
-    foreach ($models as $model_board)
+    /*
+    foreach ($models->getModels() as $model_board)
     {
         echo $this->render('_smallad', [
             'model' => $model_board,
         ]);
     }
+    */
+    ?>
+    <?=
+    ListView::widget([
+        'pager' => [
+            'firstPageLabel' => 'Первая',
+            'lastPageLabel' => 'Последняя',
+        ],
+        'dataProvider' => $models,
+        'options' => [
+            'tag' => 'div',
+            'class' => 'list-wrapper',
+            'id' => 'list-wrapper',
+        ],
+
+        'itemView' => '_smallad',
+    ]);
     ?>
 </div>
 <div class="col-md-2">

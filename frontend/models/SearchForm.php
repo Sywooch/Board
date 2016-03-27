@@ -103,15 +103,24 @@ class SearchForm extends Model
 
 
         */
-        $query = Board::find()->where(['enable'=>1])->orderBy('date_create DESC');
-        $query->joinWith(['idAttributes']);
+        $query = Board::find();
+       // $query->joinWith(['idAttributes']);
+        $current_time = date('Y-m-d H:i:s');
+        $query->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time' AND `enable`=1");
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-        ]);
-        $current_time = date('Y-m-d H:i:s');
-        $query->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time'");
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'date_create' => SORT_DESC,
 
-        $this->load(['id_object'=>$this->id_object, 'id_type'=>$this->id_type, 'id_town'=>$this->id_town,  'name'=>$this->name]);
+                ]
+            ],
+        ]);
+
+        //$this->load(['id_object'=>$this->id_object, 'id_type'=>$this->id_type, 'id_town'=>$this->id_town,  'name'=>$this->name]);
 
         $query->andFilterWhere([
             'id_object' => $this->id_object,
@@ -119,11 +128,11 @@ class SearchForm extends Model
             'id_type' => $this->id_type,
         ]);
 
-        $query->andFilterWhere(['>', 'price', $this->price_min]);
-        $query->andFilterWhere(['<', 'price', $this->price_max]);
+ //       $query->andFilterWhere(['>', 'price', $this->price_min]);
+//        $query->andFilterWhere(['<', 'price', $this->price_max]);
         $query->andFilterWhere(['like', Board::tableName().'.name', $this->name]);
 
-        return $dataProvider->getModels();
+        return $dataProvider;
     }
 }
 
