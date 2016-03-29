@@ -100,7 +100,7 @@ $this->registerJs($script, yii\web\View::POS_END);
     <div class="col-md-6">
         <p class="lead">Цена: <span class="label label-success"><?php if ($model->price) echo Yii::$app->formatter->asCurrency($model->price); else echo 'Не указана'; ?></span></p>
         <p class="lead"> Продавец: <strong><?=$model->idUser->fio?></strong></p>
-
+        <p> <span class="glyphicon glyphicon-map-marker"></span> <?=$model->idTown->name?> <?=$model->address?> </p>
         <hr />
         <p><?=nl2br(Html::encode($model->text))?></p>
         <table class="table table-striped table-condensed">

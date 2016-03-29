@@ -81,7 +81,7 @@ class Reklama extends \yii\db\ActiveRecord
      */
     public function ListPositions()
     {
-        $marked = [self::POS_LEFT=>'Слева', self::POS_RIGH => 'Справа',];
+        $marked = [self::POS_LEFT=>'Слева', self::POS_RIGHT => 'Справа',];
         return $marked;
     }
 }

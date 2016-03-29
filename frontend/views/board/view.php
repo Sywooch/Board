@@ -77,7 +77,7 @@ $this->registerJs($script, yii\web\View::POS_END);
         //echo var_dump($images = $model->getImages());
         ?>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 col-md-offset-2">
         <?php
         echo ReklamaWidget::widget([
             'position' => \common\models\Reklama::POS_RIGHT,
@@ -104,7 +104,9 @@ $this->registerJs($script, yii\web\View::POS_END);
                 'uid' => $model->id,
             ]);
 
-            ?></p>
+            ?>
+        </p>
+        <p> <span class="glyphicon glyphicon-map-marker"></span> <?=$model->idTown->name?> <?=$model->address?> </p>
         <hr />
         <p><?=nl2br(Html::encode($model->text))?></p>
         <table class="table table-striped table-condensed">

@@ -27,16 +27,7 @@ use app\components\ReklamaWidget;
     ?>
 </div>
 <div class="col-md-8">
-    <?php
-    /*
-    foreach ($models->getModels() as $model_board)
-    {
-        echo $this->render('_smallad', [
-            'model' => $model_board,
-        ]);
-    }
-    */
-    ?>
+
     <?=
     ListView::widget([
         'pager' => [
