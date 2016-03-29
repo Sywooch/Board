@@ -20,7 +20,7 @@ use app\components\ReklamaWidget;
 <div class="col-md-2">
     <?php
     echo ReklamaWidget::widget([
-        'position' => \common\models\Reklama::POS_RIGH,
+        'position' => \common\models\Reklama::POS_LEFT,
         'page' => \common\models\Reklama::PAGE_RESULT,
     ]);
 
