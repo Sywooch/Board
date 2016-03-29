@@ -122,7 +122,8 @@ class BoardController extends Controller
 
     public function actionEnded()
     {
-        $models = Board::findAll(['id_user'=>Yii::$app->user->identity->id, 'enable'=>0]);
+
+        $models = Board::find()->where(['id_user'=>Yii::$app->user->identity->id, 'enable'=>0])->orderBy('date_create DESC')->all();
 
         return $this->render('ended', [
             'models' => $models,
@@ -317,7 +318,7 @@ class BoardController extends Controller
      */
     public function actionMy()
     {
-        $models = Board::findAll(['id_user'=>Yii::$app->user->identity->id, 'enable'=>1]);
+        $models = Board::find()->where(['id_user'=>Yii::$app->user->identity->id, 'enable'=>1])->orderBy('date_create DESC')->all();
 
         return $this->render('my', [
             'models' => $models,

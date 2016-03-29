@@ -56,6 +56,10 @@ $this->registerJs($script, yii\web\View::POS_END);
         ?>
     </div>
     <div class="col-md-3">
+        <?= Html::a('Сделать рекламным', ['reklama/create', 'id' => $model->id], [
+            'class' => 'btn btn-success',
+           ]) ?>
+        <br />
         <?php $form = ActiveForm::begin(); ?>
 
 

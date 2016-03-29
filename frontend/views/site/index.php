@@ -27,7 +27,18 @@ $this->title = 'Купить, продать, снять, сдать ';
         <br /><br />
         <div class="row">
             <div class="col-md-2">
-                <h3 class="text-center">Рекламный блок</h3>
+                <?php
+                if ($left_reklama)
+                {
+                    foreach ($left_reklama as $model_reklama)
+                    {
+                        echo $this->render('_reklama', [
+                            'model' => $model_reklama->idBoard,
+                        ]);
+                    }
+                }
+
+                    ?>
             </div>
             <div class="col-md-8">
                 <?php
@@ -40,7 +51,18 @@ $this->title = 'Купить, продать, снять, сдать ';
                 ?>
             </div>
             <div class="col-md-2">
-                <h3 class="text-center">Рекламный блок</h3>
+                <?php
+                if ($right_reklama)
+                {
+                    foreach ($right_reklama as $model_reklama)
+                    {
+                        echo $this->render('_reklama', [
+                            'model' => $model_reklama->idBoard,
+                        ]);
+                    }
+                }
+
+                ?>
             </div>
 
 

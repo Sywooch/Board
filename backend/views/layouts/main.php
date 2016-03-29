@@ -49,6 +49,7 @@ AppAsset::register($this);
             ['label' => 'Города', 'url' => ['/town/index']],
             ['label' => 'Контент'],
             ['label' => 'Тексты', 'url' => ['/content/index']],
+            ['label' => 'Реклама', 'url' => ['/reklama/index']],
         ]],
         ['label' => 'Выйти (' . Yii::$app->user->identity->fio . ')',
             'url' => ['/site/logout'],

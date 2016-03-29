@@ -128,8 +128,8 @@ class SearchForm extends Model
             'id_type' => $this->id_type,
         ]);
 
- //       $query->andFilterWhere(['>', 'price', $this->price_min]);
-//        $query->andFilterWhere(['<', 'price', $this->price_max]);
+        $query->andFilterWhere(['>', 'price', $this->price_min]);
+        $query->andFilterWhere(['<', 'price', $this->price_max]);
         $query->andFilterWhere(['like', Board::tableName().'.name', $this->name]);
 
         return $dataProvider;

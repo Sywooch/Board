@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Board;
 use common\models\Content;
+use common\models\Reklama;
 use frontend\models\SearchForm;
 use Yii;
 use common\models\LoginForm;
@@ -80,10 +81,15 @@ class SiteController extends Controller
         $current_time = date('Y-m-d H:i:s');
         $last = Board::find()->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time' AND `enable` =1")->orderBy('date_create DESC')->limit(8)->all();
 
+        $left_reklama = Reklama::find()->where(['page' => Reklama::PAGE_INDEX, 'position'=> Reklama::POS_LEFT])->orderBy('weight DESC')->all();
+        $right_reklama = Reklama::find()->where(['page' => Reklama::PAGE_INDEX, 'position'=> Reklama::POS_RIGH])->orderBy('weight DESC')->all();
+
 
         return $this->render('index', [
             'model' => $model,
             'last' => $last,
+            'left_reklama' => $left_reklama,
+            'right_reklama' => $right_reklama,
         ]);
     }
 
