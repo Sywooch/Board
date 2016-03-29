@@ -6,7 +6,7 @@ use app\models\MailForm;
 use common\models\Object;
 use common\models\Propeties;
 use common\models\Type;
-use frontend\models\SearchForm;
+use frontend\models\Search;
 use Yii;
 use common\models\Board;
 
@@ -22,6 +22,8 @@ use common\models\Attributes;
  */
 class BoardController extends Controller
 {
+
+
     public function behaviors()
     {
         return [
@@ -74,12 +76,20 @@ class BoardController extends Controller
      */
     public function actionView($id)
     {
-        $search = new SearchForm();
 
-        $mail_model = new MailForm();
 
         $board_mail = $this->findModel($id);
         $board_mail->updateCounters(['looks' => 1]);
+
+        $search = new Search();
+        $search->id_town = $board_mail->id_town;
+        $search->id_object = $board_mail->id_object;
+        $search->id_type = $board_mail->id_type;
+        Yii::$app->view->params['searchform'] = $search;
+
+        // Подключаем форму для отправки сообщения
+        $mail_model = new MailForm();
+
         return $this->render('view', [
             'model' => $board_mail,
             'search' => $search,
@@ -94,7 +104,8 @@ class BoardController extends Controller
      */
     public function actionViewmy($id)
     {
-        $search = new SearchForm();
+        $search = new Search();
+
 
         $board_mail = $this->findModel($id);
 

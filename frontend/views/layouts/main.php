@@ -76,9 +76,21 @@ AppAsset::register($this);
     }
     ?>
     <div class="container<?=$css_container?>">
+        <?php
+        // Вывод виджета поиска
+        if (isset($this->params['searchform']))
+        {
+            echo \app\components\SearchWidget::widget([
+                'search' => $this->params['searchform'],
+
+            ]);
+
+        }
+        ?>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>

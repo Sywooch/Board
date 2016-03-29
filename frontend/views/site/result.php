@@ -11,11 +11,6 @@ use app\components\ReklamaWidget;
 ?>
 
 
-<?=$this->render('_search', [
-    'model' => $model,
-    'properties' => null
-])?>
-
 
 <div class="col-md-2">
     <?php

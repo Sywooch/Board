@@ -4,7 +4,7 @@ namespace frontend\controllers;
 use common\models\Board;
 use common\models\Content;
 
-use frontend\models\SearchForm;
+use frontend\models\Search;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -76,7 +76,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $model = new SearchForm();
+        $model = new Search();
+        Yii::$app->view->params['searchform'] = $model;
 
         $current_time = date('Y-m-d H:i:s');
         $last = Board::find()->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time' AND `enable` =1")->orderBy('date_create DESC')->limit(8)->all();
@@ -91,10 +92,11 @@ class SiteController extends Controller
 
     public function actionResult()
     {
-        $model = new SearchForm();
+        $model = new Search();
 
-        $model->setAttributes(Yii::$app->request->getQueryParam('SearchForm'), false);
+        $model->setAttributes(Yii::$app->request->getQueryParam('Search'), false);
         $model->validate();
+        Yii::$app->view->params['searchform'] = $model;
         $models = $model->searchProvider();
 
 

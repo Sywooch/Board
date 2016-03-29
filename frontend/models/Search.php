@@ -17,7 +17,7 @@ use common\models\Propeties;
 use yii\data\ActiveDataProvider;
 
 
-class SearchForm extends Model
+class Search extends Model
 {
     public $id;
     public $id_town;

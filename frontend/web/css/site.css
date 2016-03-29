@@ -144,11 +144,11 @@ a.desc:after {
         width: 200px;
     }
 
-    #searchform-name {
+    #search-name {
         width: 400px;
     }
 
-    #searchform-price_min,  #searchform-price_max{
+    #search-price_min,  #search-price_max{
         width: 100px;
     }
 }

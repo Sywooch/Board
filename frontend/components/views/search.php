@@ -2,11 +2,12 @@
 /**
  * Created by PhpStorm.
  * User: nikolay
- * Date: 05.03.16
- * Time: 17:26
+ * Date: 29.03.16
+ * Time: 21:29
  */
 
-/* @var $model frontend\models\SearchForm */
+
+/* @var $model frontend\models\Search */
 
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -73,8 +74,11 @@ $this->registerJs($script, yii\web\View::POS_HEAD);
     </div>
     <div class="panel-footer">
         <div class="row">
-            <div class="col-md-9"  id="LoadAjax">
+            <div class="col-md-9">
                 <?php
+                /*
+                 * @TODO Сделать поиск по параметрам
+                 * <div class="col-md-9"  id="LoadAjax">
                 if ($model->loadProperties())
                 {
                     $string_prop = '';
@@ -85,7 +89,7 @@ $this->registerJs($script, yii\web\View::POS_HEAD);
                             $input_filed = '<select class="form-control" name="SearchForm[Properties]['. $prop['id'] .']"><option> - '. $prop['name']. ' - </option>';
                             foreach ($prop['val'] as $value)
                             {
-                                 $input_filed = $input_filed . '<option value="'. $value .'">'.$value.'</option>';
+                                $input_filed = $input_filed . '<option value="'. $value .'">'.$value.'</option>';
                             }
 
                             $input_filed = $input_filed . '</select>';
@@ -95,6 +99,7 @@ $this->registerJs($script, yii\web\View::POS_HEAD);
 
                     echo $string_prop;
                 }
+                */
                 ?>
             </div>
             <div class="col-md-3">

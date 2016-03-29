@@ -15,6 +15,22 @@ use yii\helpers\Url;
 use app\components\MailWidget;
 use app\components\ReklamaWidget;
 
+$this->title = $model->name;
+
+$this->params['breadcrumbs'][] = ['label' => $model->idTown->name, 'url' => [
+    '/site/result',
+    'Search' =>['id_type' => '', 'id_object' =>'', 'name'=> '', 'id_town'=> $model->id_town, 'price_min' => '', 'price_max' => '']
+]];
+$this->params['breadcrumbs'][] = ['label' => $model->idType->name, 'url' => [
+    '/site/result',
+    'Search' =>['id_type' => $model->id_type, 'id_object' => '', 'name'=> '', 'id_town'=> $model->id_town, 'price_min' => '', 'price_max' => '']
+]];
+$this->params['breadcrumbs'][] = ['label' => $model->idObject->name, 'url' => [
+    '/site/result',
+    'Search' =>['id_type' => $model->id_type, 'id_object' => $model->id_object, 'name'=> '', 'id_town'=> $model->id_town, 'price_min' => '', 'price_max' => '']
+]];
+$this->params['breadcrumbs'][] = $this->title;
+
 $getphone_route = Url::toRoute(['ajax/getphone', 'id' => $model->id]);
 $script = <<< JS
 
@@ -42,12 +58,9 @@ $script = <<< JS
 
 JS;
 $this->registerJs($script, yii\web\View::POS_END);
+
 ?>
 
-<?=$this->render('/site/_search', [
-    'model' => $search,
-    'properties' => null
-])?>
 
 <h2 class=""><?=$model->name?></h2>
 <div class="row">

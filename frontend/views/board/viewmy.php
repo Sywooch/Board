@@ -18,7 +18,7 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Мои объявления', 'url' => ['my']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$getphone_route = Url::toRoute(['ajax/getphone', 'id' => $model->id]);
+
 $script = <<< JS
 
 
@@ -28,19 +28,6 @@ $script = <<< JS
         $("#MainImg").empty();
         $("#MainImg").html('<img class="img-rounded" src="'+idimg+'" />');
     }
-
-    $( "#getPhone" ).click(function() {
-        $.get( "$getphone_route" )
-            .done(function( json )
-            {
-                data = JSON.parse(json);
-                $('#showPhone').empty();
-                $('#showPhone').addClass(' label label-info');
-                $('#showPhone').html('8-'+data.phone);
-
-            });
-    });
-
 
 
 JS;

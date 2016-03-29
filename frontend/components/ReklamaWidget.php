@@ -20,6 +20,7 @@ class ReklamaWidget extends Widget {
 
 
     public function init () {
+        parent::init();
 
         if (($this->page === null)or($this->position === null))
         {
@@ -41,7 +42,11 @@ class ReklamaWidget extends Widget {
     public function run() {
         if (($this->page)&&($this->position))
         {
-            $models = Reklama::find()->where(['page' => $this->page, 'position'=> $this->position])->orderBy('weight DESC')->limit($this->limit)->all();
+            if ($this->random)
+                $order = 'RAND()';
+            else
+                $order = 'weight DESC';
+            $models = Reklama::find()->where(['page' => $this->page, 'position'=> $this->position])->orderBy($order)->limit($this->limit)->all();
             return $this->render(
                 'reklama', ['models' => $models]
             );

@@ -10,11 +10,6 @@ $this->title = 'Купить, продать, снять, сдать ';
 use app\components\ReklamaWidget;
 ?>
 <div class="site-index">
-        <?=$this->render('_search', [
-            'model' => $model,
-            'properties' => null
-        ])?>
-
 
     <div class="body-content">
         <div class="row">
@@ -29,6 +24,7 @@ use app\components\ReklamaWidget;
                 echo ReklamaWidget::widget([
                     'position' => \common\models\Reklama::POS_LEFT,
                     'page' => \common\models\Reklama::PAGE_INDEX,
+                    'random' => true,
                 ]);
 
                 ?>
