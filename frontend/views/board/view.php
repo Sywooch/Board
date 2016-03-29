@@ -13,6 +13,7 @@ use yii\bootstrap\Html;
 use yii\bootstrap\Alert;
 use yii\helpers\Url;
 use app\components\MailWidget;
+use app\components\ReklamaWidget;
 
 $getphone_route = Url::toRoute(['ajax/getphone', 'id' => $model->id]);
 $script = <<< JS
@@ -74,6 +75,15 @@ $this->registerJs($script, yii\web\View::POS_END);
             }
         }
         //echo var_dump($images = $model->getImages());
+        ?>
+    </div>
+    <div class="col-md-2">
+        <?php
+        echo ReklamaWidget::widget([
+            'position' => \common\models\Reklama::POS_RIGHT,
+            'page' => \common\models\Reklama::PAGE_VIEW,
+        ]);
+
         ?>
     </div>
 </div>

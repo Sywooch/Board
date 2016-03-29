@@ -7,6 +7,7 @@
  */
 
 use yii\widgets\ListView;
+use app\components\ReklamaWidget;
 ?>
 
 
@@ -17,7 +18,13 @@ use yii\widgets\ListView;
 
 
 <div class="col-md-2">
-    <h3 class="text-center">Рекламный блок</h3>
+    <?php
+    echo ReklamaWidget::widget([
+        'position' => \common\models\Reklama::POS_RIGH,
+        'page' => \common\models\Reklama::PAGE_RESULT,
+    ]);
+
+    ?>
 </div>
 <div class="col-md-8">
     <?php
@@ -48,5 +55,11 @@ use yii\widgets\ListView;
     ?>
 </div>
 <div class="col-md-2">
-    <h3 class="text-center">Рекламный блок</h3>
+    <?php
+    echo ReklamaWidget::widget([
+        'position' => \common\models\Reklama::POS_RIGHT,
+        'page' => \common\models\Reklama::PAGE_RESULT,
+    ]);
+
+    ?>
 </div>

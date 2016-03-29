@@ -4,12 +4,10 @@
 
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\widgets\ActiveForm;
 
 $this->title = 'Купить, продать, снять, сдать ';
 
-
+use app\components\ReklamaWidget;
 ?>
 <div class="site-index">
         <?=$this->render('_search', [
@@ -28,17 +26,12 @@ $this->title = 'Купить, продать, снять, сдать ';
         <div class="row">
             <div class="col-md-2">
                 <?php
-                if ($left_reklama)
-                {
-                    foreach ($left_reklama as $model_reklama)
-                    {
-                        echo $this->render('_reklama', [
-                            'model' => $model_reklama->idBoard,
-                        ]);
-                    }
-                }
+                echo ReklamaWidget::widget([
+                    'position' => \common\models\Reklama::POS_LEFT,
+                    'page' => \common\models\Reklama::PAGE_INDEX,
+                ]);
 
-                    ?>
+                ?>
             </div>
             <div class="col-md-8">
                 <?php
@@ -52,15 +45,10 @@ $this->title = 'Купить, продать, снять, сдать ';
             </div>
             <div class="col-md-2">
                 <?php
-                if ($right_reklama)
-                {
-                    foreach ($right_reklama as $model_reklama)
-                    {
-                        echo $this->render('_reklama', [
-                            'model' => $model_reklama->idBoard,
-                        ]);
-                    }
-                }
+                echo ReklamaWidget::widget([
+                    'position' => \common\models\Reklama::POS_RIGHT,
+                    'page' => \common\models\Reklama::PAGE_INDEX,
+                ]);
 
                 ?>
             </div>

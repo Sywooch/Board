@@ -20,7 +20,7 @@ class Reklama extends \yii\db\ActiveRecord
     const PAGE_VIEW = 3;
 
     const POS_LEFT = 1;
-    const POS_RIGH = 2;
+    const POS_RIGHT = 2;
 
     /**
      * @inheritdoc
