@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <ul class="nav nav-tabs">
             <li><?=Html::a($this->title.' - <strong>Активные</strong>',  ['my'] )?></li>
             <li class="active"><a href="#"><?=$this->title ?> - <strong>Завершенные</strong></a></li>
-
+            <?php if (Yii::$app->user->can('agency')) { echo '<li>'.Html::a($this->title.' - <strong>Статистика</strong>',  ['statistic'] ).'</li>'; } ?>
         </ul>
 
     </div>

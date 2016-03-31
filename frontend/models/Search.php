@@ -123,9 +123,6 @@ class Search extends Model
             $select = 'SELECT ta1.id_board FROM '. $from. ' WHERE '.$where.' GROUP BY ta1.id_board';
         }
 
-
-
-
             /**
              * @todo Сделать поиск через DAO
              * Сейчас все должно работать через SQlDataProvider
@@ -161,11 +158,6 @@ class Search extends Model
                     ]
                 ],
             ]);
-
-
-
-
-
 
         return $dataProvider;
     }

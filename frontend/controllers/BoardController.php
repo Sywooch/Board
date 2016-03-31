@@ -7,6 +7,7 @@ use common\models\Object;
 use common\models\Propeties;
 use common\models\Type;
 use frontend\models\Search;
+use frontend\models\Statistic;
 use Yii;
 use common\models\Board;
 
@@ -35,6 +36,11 @@ class BoardController extends Controller
                         'actions' => ['create', 'step', 'my', 'view', 'update', 'close', 'ended', 'public', 'sendmsg', 'delete', 'viewmy'],
                         'allow' => true,
                         'roles' => ['user'],
+                    ],
+                    [
+                        'actions' => ['statistic'],
+                        'allow' => true,
+                        'roles' => ['agency'],
                     ],
                     [
                         'actions' => ['view', 'sendmsg'],
@@ -118,6 +124,22 @@ class BoardController extends Controller
             'search' => $search,
 
         ]);
+    }
+
+    /**
+     * Расшируенная статистика, доустпная только для агентств
+     * @return string
+     */
+    public function actionStatistic()
+    {
+        $searchModel = new Statistic();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('statistic', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
     }
 
     public function actionStep()
