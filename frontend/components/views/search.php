@@ -17,8 +17,8 @@ $getpropeties_route = Url::toRoute('ajax/getpropeties');
 $script = <<< JS
     var input_filed;
     function loadProp(id) {
-        id_obj = $("#searchform-id_object").val();
-        id_type = $("#searchform-id_type").val();
+        id_obj = $("#search-id_object").val();
+        id_type = $("#search-id_type").val();
         if ((id_obj!='')&&(id_type!=''))
         {
         $("#LoadAjax").empty();
@@ -29,7 +29,7 @@ $script = <<< JS
                 $.each(data, function() {
                     if (this.val != false)
                     {
-                        input_filed = '<select class="form-control" name="SearchForm[Properties]['+ this.id +']"><option> - '+this.name+' - </option>';
+                        input_filed = '<select class="form-control" name="Search[properties]['+ this.id +']"><option value=""> - '+this.name+' - </option>';
                         $.each(this.val, function(){
                             input_filed = input_filed + '<option value="'+ this +'">'+this+'</option>';
                         });
@@ -74,22 +74,29 @@ $this->registerJs($script, yii\web\View::POS_HEAD);
     </div>
     <div class="panel-footer">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-9" id="LoadAjax">
                 <?php
                 /*
                  * @TODO Сделать поиск по параметрам
                  * <div class="col-md-9"  id="LoadAjax">
+                 */
                 if ($model->loadProperties())
                 {
                     $string_prop = '';
+                    $get_propeties = $model->properties;
                     foreach ($model->loadProperties() as $prop)
                     {
                         if ($prop['val'])
                         {
-                            $input_filed = '<select class="form-control" name="SearchForm[Properties]['. $prop['id'] .']"><option> - '. $prop['name']. ' - </option>';
+                            $sel = $get_propeties[$prop['id']];
+                            $input_filed = '<select class="form-control" name="Search[properties]['. $prop['id'] .']"><option value=""> - '. $prop['name']. ' - </option>';
                             foreach ($prop['val'] as $value)
                             {
-                                $input_filed = $input_filed . '<option value="'. $value .'">'.$value.'</option>';
+                                if ($sel == $value)
+                                    $selected = 'selected';
+                                else
+                                    $selected = '';
+                                $input_filed = $input_filed . '<option value="'. trim($value) .'" '. $selected .'>'.$value.'</option>';
                             }
 
                             $input_filed = $input_filed . '</select>';
@@ -99,7 +106,7 @@ $this->registerJs($script, yii\web\View::POS_HEAD);
 
                     echo $string_prop;
                 }
-                */
+              #  */
                 ?>
             </div>
             <div class="col-md-3">
@@ -124,3 +131,6 @@ $this->registerJs($script, yii\web\View::POS_HEAD);
     </div>
 </div>
 <?php ActiveForm::end(); ?>
+<?php
+//echo var_dump($model->properties);
+?>

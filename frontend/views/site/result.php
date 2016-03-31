@@ -23,8 +23,10 @@ use app\components\ReklamaWidget;
 </div>
 <div class="col-md-8">
 
-    <?=
-    ListView::widget([
+    <?php
+   // echo var_dump($models->getModels());
+
+    echo ListView::widget([
         'pager' => [
             'firstPageLabel' => 'Первая',
             'lastPageLabel' => 'Последняя',
@@ -38,6 +40,7 @@ use app\components\ReklamaWidget;
 
         'itemView' => '_smallad',
     ]);
+    #*/
     ?>
 </div>
 <div class="col-md-2">

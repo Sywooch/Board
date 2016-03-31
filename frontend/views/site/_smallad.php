@@ -10,7 +10,8 @@
 
 use yii\helpers\Url;
 
-
+//echo var_dump($model);
+#/*
 ?>
 
 <a href="<?= Url::toRoute(['board/view', 'id' => $model->id])?>" class="list-group-item  marked_<?=$model->marked?>">

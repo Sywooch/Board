@@ -10,11 +10,14 @@ namespace frontend\models;
 
 
 
+use common\models\Attributes;
 use yii\base\Model;
 use Yii;
 use common\models\Board;
 use common\models\Propeties;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
+use yii\data\SqlDataProvider;
 
 
 class Search extends Model
@@ -29,6 +32,7 @@ class Search extends Model
     public $price_max;
     public $page_limit = 10;
     public $idAttributes;
+    public $board;
 
     public function beforeValidate()
     {
@@ -45,8 +49,8 @@ class Search extends Model
     {
         return [
             [['id', 'id_object', 'id_town', 'id_type', ], 'integer'],
-            [['name', 'idAttributes'], 'safe'],
-            [['price_min', 'price_max'], 'safe'],
+            [['name', 'idAttributes', 'board'], 'safe'],
+            [['price_min', 'price_max', 'properties'], 'safe'],
 
         ];
     }
@@ -77,60 +81,91 @@ class Search extends Model
     }
 
     /**
-     * Creates data provider instance with search query applied
+     * @author Nikolay
+     * @todo Реализовать по человечески поиск атрибутов
+     * Жесткие костыли при поиске с атрибутами
      *
      * @return ActiveDataProvider
      */
-    public function search()
+     public function searchProvider()
     {
-        $filter = [
-
-            'enable' => 1,
-            'id_object' => $this->id_object,
-            'id_town' => $this->id_town,
-            'id_type' => $this->id_type,
-            //   'like', Board::tableName().'.name', $this->name,
-        ];
-
-        $query = Board::find()->where($filter)->orderBy('date_create DESC')->limit($this->page_limit)->all();
-
-        return $query;
-    }
-
-    public function searchProvider()
-    {
-        /*
 
 
-        */
-        $query = Board::find();
-       // $query->joinWith(['idAttributes']);
-        $current_time = date('Y-m-d H:i:s');
-        $query->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time' AND `enable`=1");
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'date_create' => SORT_DESC,
+            // ФОрмирование строки поиска по атрибутам
+            $i = 1;
+            $select = '';
+        if($this->properties)
+        {
+            $from = '';
+            $where = '';
+            foreach ($this->properties as $id_prop => $value)
+            {
+                if ($value!='') // Атрибут есть, и выбран
+                {
+                    if ($i>1)
+                    {
+                        $and = ' AND ';
+                        $coma = ', ';
+                    }
 
-                ]
-            ],
-        ]);
+                    else
+                    {
+                        $and = '';
+                        $coma = '';
+                    }
+                    $from = ' brd_attributes ta'.$i.$coma. $from;
+                    $where = $where.$and." ta".$i.".id_prop = $id_prop AND ta".$i.".value = '$value' ";
+                    $i++;
+                }
 
-        //$this->load(['id_object'=>$this->id_object, 'id_type'=>$this->id_type, 'id_town'=>$this->id_town,  'name'=>$this->name]);
+            }
 
-        $query->andFilterWhere([
-            'id_object' => $this->id_object,
-            'id_town' => $this->id_town,
-            'id_type' => $this->id_type,
-        ]);
+            $select = 'SELECT ta1.id_board FROM '. $from. ' WHERE '.$where.' GROUP BY ta1.id_board';
+        }
 
-        $query->andFilterWhere(['>', 'price', $this->price_min]);
-        $query->andFilterWhere(['<', 'price', $this->price_max]);
-        $query->andFilterWhere(['like', Board::tableName().'.name', $this->name]);
+
+
+
+            /**
+             * @todo Сделать поиск через DAO
+             * Сейчас все должно работать через SQlDataProvider
+             */
+
+            $query = Board::find();
+
+            $current_time = date('Y-m-d H:i:s');
+            $query->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time' AND `enable`=1");
+
+
+            $query->andFilterWhere([
+                'id_object' => $this->id_object,
+                'id_town' => $this->id_town,
+                'id_type' => $this->id_type,
+            ]);
+
+            $query->andFilterWhere(['>', 'price', $this->price_min]);
+            $query->andFilterWhere(['<', 'price', $this->price_max]);
+            $query->andFilterWhere(['like', Board::tableName().'.name', $this->name]);
+            if ($i>1) // Были выбраны атрибуты
+                $query->andOnCondition("id IN ($select)");
+
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+                'sort' => [
+                    'defaultOrder' => [
+                        'date_create' => SORT_DESC,
+
+                    ]
+                ],
+            ]);
+
+
+
+
+
 
         return $dataProvider;
     }
