@@ -22,13 +22,9 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
 
                 'rules' => [
+
                     [
-                        'actions' => ['index', 'view'],
-                        'allow' => true,
-                        'roles' => ['manager'],
-                    ],
-                    [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'change'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -104,6 +100,26 @@ class UserController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionChange($id)
+    {
+        $model = $this->findModel($id);
+        $model->scenario = 'change';
+        if ($model->load(Yii::$app->request->post()) && $model->validatePassword($model->old_password))
+        {
+            //echo var_dump($model->old_password);
+            //die();
+            $model->setPassword($model->new_password);
+            if ($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
+        }
+        else
+        {
+            return $this->render('change', [
                 'model' => $model,
             ]);
         }

@@ -33,6 +33,10 @@ class User extends ActiveRecord implements IdentityInterface
 
     const ROLE_DEFAULT = 'user';
 
+    // Need for change password
+    public $new_password;
+    public $old_password;
+
     /**
      * @inheritdoc
      */
@@ -60,6 +64,9 @@ class User extends ActiveRecord implements IdentityInterface
             [['role'], 'required', 'on' => 'update'],
             [['role'], 'string', 'max' => 10],
             [['phone'], 'string', 'length' => 12],
+
+            [['new_password', 'old_password'],  'string', 'max' => 50, 'min'=>6],
+            [['new_password', 'old_password'],  'required', 'on' => 'change'],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
@@ -275,7 +282,7 @@ class User extends ActiveRecord implements IdentityInterface
           return \Yii::$app->mailer->compose(['html' => 'mailValidate-html', 'text' => 'mailValidate-text'], ['user' => $this])
                     ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
                     ->setTo($this->email)
-                    ->setSubject('Подтеврждение E-mail для ' . \Yii::$app->name)
+                    ->setSubject('Подтверждение E-mail ' . \Yii::$app->name)
                     ->send();
 
     }

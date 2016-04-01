@@ -114,6 +114,8 @@ class BoardController extends Controller
 
 
         $board_mail = $this->findModel($id);
+        if ($board_mail->id_user!=Yii::$app->user->id)
+            return $this->redirect(['site/index']);
 
         if ($board_mail->load(Yii::$app->request->post()) && $board_mail->save()) {
             return $this->redirect(['my']);
@@ -221,7 +223,7 @@ class BoardController extends Controller
 
 
             // Save redirect
-            Yii::$app->session->setFlash('success', '<h2 class="text-center">Ваше объявление, '. $model->name .', успешно добавлено</h2><p class="text-center">Оно будет опубликовано через 15 минут</p>');
+            Yii::$app->session->setFlash('success', '<h2 class="text-center">Ваше объявление, '. $model->name .', успешно добавлено</h2><p class="text-center">Оно будет опубликовано через 30 минут</p>');
             return $this->redirect(['viewmy', 'id' => $model->id]);
         } else {
             $params = Yii::$app->request->post();
@@ -252,6 +254,8 @@ class BoardController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if ($model->id_user!=Yii::$app->user->id)
+            return $this->redirect(['site/index']);
         // OldImage
         $old_images = $model->getImages();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -365,8 +369,11 @@ class BoardController extends Controller
      */
     public function actionClose($id)
     {
-        if ($id)
-            Board::updateAll(['enable'=> 0], ['id'=>$id]);
+        $model = $this->findModel($id);
+        if ($model->id_user!=Yii::$app->user->id)
+            return $this->redirect(['site/index']);
+
+        Board::updateAll(['enable'=> 0], ['id'=>$id]);
 
         return $this->redirect(['my']);
     }
@@ -378,8 +385,11 @@ class BoardController extends Controller
      */
     public function actionPublic($id)
     {
-        if ($id)
-            Board::updateAll(['enable'=> 1], ['id'=>$id]);
+        $model = $this->findModel($id);
+        if ($model->id_user!=Yii::$app->user->id)
+            return $this->redirect(['site/index']);
+
+        Board::updateAll(['enable'=> 1], ['id'=>$id]);
 
         return $this->redirect(['update', 'id' => $id]);
     }
@@ -415,6 +425,9 @@ class BoardController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+
+        if ($model->id_user!=Yii::$app->user->id)
+            return $this->redirect(['site/index']);
         if ($model)
         {
             Attributes::deleteAll(['id_board' => $model->id]);

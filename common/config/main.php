@@ -3,7 +3,7 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'language' => 'ru-RU',
     'sourceLanguage' => 'ru-Ru',
-    'name' => 'Сайт бесплатных объявлений',
+    'name' => 'Недвижимость-Октябрьский.рф',
     'timeZone' => 'Asia/Samarkand',
     'components' => [
         'cache' => [

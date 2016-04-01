@@ -89,7 +89,7 @@ class BoardSearch extends Board
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            Board::tableName().'.id' => $this->id,
             'id_user' => $this->id_user,
             'id_object' => $this->id_object,
             'id_town' => $this->id_town,

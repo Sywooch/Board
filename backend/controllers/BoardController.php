@@ -28,7 +28,7 @@ class BoardController extends Controller
                     [
                         'actions' => ['index', 'view','create', 'update', 'delete'],
                         'allow' => true,
-                        'roles' => ['manager'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

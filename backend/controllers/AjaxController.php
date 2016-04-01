@@ -28,7 +28,7 @@ class AjaxController extends Controller {
                     [
                         'actions' => ['getpropeties',],
                         'allow' => true,
-                        'roles' => ['manager'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

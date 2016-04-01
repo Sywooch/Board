@@ -23,7 +23,7 @@ class TypeController extends Controller
 
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'update',],
+                        'actions' => ['index', 'view', 'update', 'create', 'delete'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],

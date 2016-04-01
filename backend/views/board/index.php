@@ -28,7 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
         },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'id',
+                'value' => 'id',
 
+                'contentOptions' => ['style'=>'width:80px',]
+
+            ],
             [
                 'attribute' => 'date_create',
                 'value' => 'date_create',
@@ -65,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'enable',
 
             ['class' => 'yii\grid\ActionColumn',
-                'headerOptions' => ['width' => '80'],
+                'headerOptions' => ['width' => '40'],
                 'template' => '{view}',
             ],
         ],

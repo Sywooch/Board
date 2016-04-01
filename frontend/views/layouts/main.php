@@ -66,7 +66,7 @@ AppAsset::register($this);
         ?>
         <div class="top-image">
             <div class="jumbotron">
-                <h1>www Недвижимость-Октябрьский.рф</h1>
+                <h1>НЕДВИЖИМОСТЬ-ОКТЯБРЬСКИЙ.РФ</h1>
 
 
             </div>
