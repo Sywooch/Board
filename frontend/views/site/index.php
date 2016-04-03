@@ -24,7 +24,7 @@ use app\components\ReklamaWidget;
                 echo ReklamaWidget::widget([
                     'position' => \common\models\Reklama::POS_LEFT,
                     'page' => \common\models\Reklama::PAGE_INDEX,
-                    'random' => true,
+
                 ]);
 
                 ?>
@@ -44,6 +44,7 @@ use app\components\ReklamaWidget;
                 echo ReklamaWidget::widget([
                     'position' => \common\models\Reklama::POS_RIGHT,
                     'page' => \common\models\Reklama::PAGE_INDEX,
+                    'random' => true,
                 ]);
 
                 ?>

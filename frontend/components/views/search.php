@@ -67,7 +67,7 @@ $this->registerJs($script, yii\web\View::POS_HEAD);
         <?= $form->field($model, 'id_town')->dropDownList(\common\models\Town::FrAllTowns(), ['prompt' => '- Во всех городах -', ])->label(false) ?>
 
         <div class="form-group">
-            <?= Html::submitButton('Найти!', ['class' => 'btn btn-primary', ]) ?>
+            <?= Html::submitButton('<span class="glyphicon glyphicon-search"></span> Найти!', ['class' => 'btn btn-primary', ]) ?>
             <div class="help-block"></div>
         </div>
 

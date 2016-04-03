@@ -9,6 +9,7 @@ use backend\models\ReklamaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ReklamaController implements the CRUD actions for Reklama model.
