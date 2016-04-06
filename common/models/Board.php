@@ -168,9 +168,20 @@ class Board extends \yii\db\ActiveRecord
         return $this->hasOne(Object::className(), ['id' => 'id_object']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getIdAttributes()
     {
         return $this->hasMany(Attributes::className(), ['id_board' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdReklamas()
+    {
+        return $this->hasMany(Reklama::className(), ['id_board' => 'id']);
     }
 
     /**

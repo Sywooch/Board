@@ -32,7 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'created_at',
+                'value' => 'created_at',
+                'format' => ['date', 'php:d M H:i'],
+                'contentOptions' => ['style'=>'width:130px',]
 
+            ],
 
             'fio',
             'phone',

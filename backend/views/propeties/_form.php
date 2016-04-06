@@ -19,9 +19,12 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'val')->textInput(['maxlength' => true]) ?>
+    <p class="text-muted">Если свойство должно быть числом, например (площадь помещения) оставляем это поле пустым</p>
+    <p class="text-muted">Если свойство должно быть списком, например (количество комнат) Заполняем через запятую. к примеру: 1, 2, 3
+        <span class="label label-warning">В конце запятую не ставить!</span></p>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

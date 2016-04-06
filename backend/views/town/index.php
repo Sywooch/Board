@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'=>$searchModel->getAllRegionGrid(),
             ],
             'name',
+            'sort',
 
             ['class' => 'yii\grid\ActionColumn',
                 'headerOptions' => ['width' => '80'],

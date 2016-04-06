@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\Reklama;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ReklamaSearch */
@@ -20,13 +21,47 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'id_board',
-            'page',
-            'position',
+            [
+                'attribute' => 'idBoard',
+                'format' => 'raw',
+                'value' => function($data){
+                    return Html::a(
+                        $data->idBoard->name,
+                       ['board/view', 'id'=> $data->id_board],
+                        [
+                            'title' => 'Перейти в объявление',
+                        ]
+                    );
+                }
+
+            ],
+
+            [
+                'attribute' => 'page',
+                'format' => 'html',
+                'value' => function($data){
+                    $page = Reklama::ListPages();
+                    return $page[$data->page];
+                },
+                'filter'=>$searchModel->getAllPageGrid(),
+
+            ],
+            [
+                'attribute' => 'position',
+                'format' => 'html',
+                'value' => function($data){
+                    $page = Reklama::ListPositions();
+                    return $page[$data->position];
+                },
+                 'filter'=>$searchModel->getAllPositionGrid(),
+
+            ],
             'weight',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'headerOptions' => ['width' => '80'],
+                'template' => '{update} - {delete}',
+            ],
         ],
     ]); ?>
 </div>

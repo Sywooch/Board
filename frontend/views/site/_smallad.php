@@ -19,9 +19,11 @@ use yii\helpers\Url;
         <p class="pull-left">
             <?php
             $image = $model->getImage();
-            if ($image)
+            if (file_exists(Yii::getAlias('@webroot').'/uploadimg/store/'.$image->filePath))
+            {
+                    echo '<img class="img-rounded" src="'.str_replace(Yii::getAlias('@webroot'), '', $image->getPath('100x100')).'"  />';
 
-                echo '<img class="img-rounded" src="'.str_replace(Yii::getAlias('@webroot'), '', $image->getPath('100x100')).'"  />';
+            }
             ?>
         </p>
         <div class="media-body">

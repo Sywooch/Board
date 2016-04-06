@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Reklama */
 
-$this->title = 'Update Reklama: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Reklamas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Изменить Рекламный блок для : ' . $model->idBoard->name;
+$this->params['breadcrumbs'][] = ['label' => 'Реклама', 'url' => ['index']];
+
+$this->params['breadcrumbs'][] = 'Изменить '. $this->title;
 ?>
 <div class="reklama-update">
 

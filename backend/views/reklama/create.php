@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Reklama */
 
 $this->title = 'Создать рекламу для: '. $board->name;
-$this->params['breadcrumbs'][] = ['label' => 'Reklamas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Реклама', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="reklama-create">

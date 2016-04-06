@@ -24,9 +24,13 @@ foreach ($models as $mod)
                     <p  class="list-group-item-text"><?=$model->name?> </p>
                     <?php
                     $image = $model->getImage();
-                    if ($image)
+                    //echo Yii::getAlias('@webroot').'/uploadimg/store/'.$image->filePath;
 
-                        echo '<img class="img-rounded" src="'.str_replace(Yii::getAlias('@webroot'), '', $image->getPath('130x130')).'"  />';
+                    if (file_exists(Yii::getAlias('@webroot').'/uploadimg/store/'.$image->filePath))
+                    {
+                            echo '<img class="img-rounded" src="'.str_replace(Yii::getAlias('@webroot'), '', $image->getPath('130x130')).'"  />';
+                    }
+
                     ?>
 
                     <p class="small"><span class="glyphicon glyphicon-map-marker"></span> <?=$model->idTown->name?>  </p>

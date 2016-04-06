@@ -51,6 +51,7 @@ class Reklama extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_board' => 'Объявление',
+            'idBoard' => 'Объявление',
             'page' => 'Страница',
             'position' => 'Позиция',
             'weight' => 'Вес',
@@ -69,7 +70,7 @@ class Reklama extends \yii\db\ActiveRecord
      * Список страниц
      * @return array
      */
-    public function ListPages()
+    public static function ListPages()
     {
         $marked = [self::PAGE_INDEX=>'На главной', self::PAGE_RESULT => 'В результатах поиска', self::PAGE_VIEW => 'В просмотре объявлений'];
         return $marked;
@@ -79,9 +80,11 @@ class Reklama extends \yii\db\ActiveRecord
      * Список позиций
      * @return array
      */
-    public function ListPositions()
+    public static function ListPositions()
     {
         $marked = [self::POS_LEFT=>'Слева', self::POS_RIGHT => 'Справа',];
         return $marked;
     }
+
+
 }

@@ -41,7 +41,7 @@ $this->registerJs($script, yii\web\View::POS_END);
     <div class="col-md-6">
         <?php
         $image = $model->getImage();
-        if ($image)
+        if (file_exists(Yii::getAlias('@webroot').'/uploadimg/store/'.$image->filePath))
 
             echo '<div id="MainImg"><img class="img-rounded" src="'.str_replace(Yii::getAlias('@webroot'), '', $image->getPath('500x400')).'" /></div>';
         ?>
@@ -53,12 +53,15 @@ $this->registerJs($script, yii\web\View::POS_END);
         {
             foreach ($images as $img)
             {
-                //echo $img->urlAlias;
-                $big_img = str_replace(Yii::getAlias('@webroot'), '', $img->getPath('500x400'));
-                echo Html::img(str_replace(Yii::getAlias('@webroot'), '', $img->getPath('70x70')), [
-                        'class' => 'img-rounded listimg',
-                        'onclick' => "loadimg('$big_img')"
-                    ]). '';
+                if (file_exists(Yii::getAlias('@webroot').'/uploadimg/store/'.$image->filePath))
+                {
+                    $big_img = str_replace(Yii::getAlias('@webroot'), '', $img->getPath('500x400'));
+                    echo Html::img(str_replace(Yii::getAlias('@webroot'), '', $img->getPath('70x70')), [
+                            'class' => 'img-rounded listimg',
+                            'onclick' => "loadimg('$big_img')"
+                        ]). '';
+                }
+
             }
         }
         //echo var_dump($images = $model->getImages());

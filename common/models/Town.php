@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $id_region
  * @property string $name
  * @property integer $default
+ * @property integer $sort
  *
  * @property Board[] $boards
  * @property Region $idRegion
@@ -33,7 +34,7 @@ class Town extends \yii\db\ActiveRecord
     {
         return [
             [['id_region', 'name'], 'required'],
-            [['id_region', 'default'], 'integer'],
+            [['id_region', 'default', 'sort'], 'integer'],
             [['name'], 'unique',  'targetAttribute' => ['id_region', 'name']],
             [['name'], 'string', 'max' => 50]
         ];
@@ -49,6 +50,7 @@ class Town extends \yii\db\ActiveRecord
             'id_region' => 'Регион',
             'name' => 'Название',
             'default' => 'По умолчанию',
+            'sort' => 'Сортировка',
             'idRegion' => 'Регион',
         ];
     }

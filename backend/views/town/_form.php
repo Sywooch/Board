@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'sort')->textInput() ?>
+
     <?= $form->field($model, 'default')->textInput() ?>
 
     <div class="form-group">

@@ -27,7 +27,7 @@ class ReklamaController extends Controller
 
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','create', 'update', 'delete'],
+                        'actions' => ['index', 'create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -58,17 +58,6 @@ class ReklamaController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Reklama model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
 
     /**
      * Creates a new Reklama model.
@@ -83,7 +72,7 @@ class ReklamaController extends Controller
         $model->id_board = $id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['board/view', 'id'=>$model->id_board]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -103,7 +92,7 @@ class ReklamaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['board/view', 'id'=>$model->id_board]);
         } else {
             return $this->render('update', [
                 'model' => $model,

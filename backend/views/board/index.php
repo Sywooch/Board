@@ -20,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'rowOptions' => function ($model){
             if ($model->Active()) {
-                return ['class' => ''];
+                if ($model->idReklamas)
+                    return ['class' => 'warning'];
+
             }
             else {
                 return ['class' => 'danger'];

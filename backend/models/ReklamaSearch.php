@@ -2,16 +2,19 @@
 
 namespace backend\models;
 
+use common\models\Board;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Reklama;
+use yii\helpers\ArrayHelper;
 
 /**
  * ReklamaSearch represents the model behind the search form about `common\models\Reklama`.
  */
 class ReklamaSearch extends Reklama
 {
+    public $idBoard;
     /**
      * @inheritdoc
      */
@@ -19,6 +22,7 @@ class ReklamaSearch extends Reklama
     {
         return [
             [['id', 'id_board', 'page', 'position', 'weight'], 'integer'],
+            [['idBoard' ], 'safe'],
         ];
     }
 
@@ -41,12 +45,18 @@ class ReklamaSearch extends Reklama
     public function search($params)
     {
         $query = Reklama::find();
+        $query->joinWith(['idBoard']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['idBoard'] = [
+            'asc' => [Board::tableName().'.name' => SORT_ASC],
+            'desc' => [Board::tableName().'.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -64,7 +74,21 @@ class ReklamaSearch extends Reklama
             'position' => $this->position,
             'weight' => $this->weight,
         ]);
+        $query->andFilterWhere(['like', Board::tableName().'.name', $this->idBoard]);
 
         return $dataProvider;
     }
+
+    public function getAllPositionGrid()
+    {
+        $data = Reklama::ListPositions();
+        return $data;
+    }
+
+    public function getAllPageGrid()
+    {
+        $data = Reklama::ListPages();
+        return $data;
+    }
+
 }
