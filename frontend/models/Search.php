@@ -121,7 +121,10 @@ class Search extends Model
             }
 
             $select = 'SELECT ta1.id_board FROM '. $from. ' WHERE '.$where.' GROUP BY ta1.id_board';
+
         }
+        //echo $select;
+        //die();
 
             /**
              * @todo Сделать поиск через DAO

@@ -64,7 +64,12 @@ class BoardController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-
+        /*
+        $model->scenario = $model::SCENARIO_CHANGE;
+        echo '<br><br><br><br><br><pre>';
+        echo var_dump($model);
+        echo '</pre>';
+#*/
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -78,7 +83,7 @@ class BoardController extends Controller
      * Creates a new Board model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
-     */
+     *
     public function actionCreate()
     {
         $model = new Board();

@@ -262,23 +262,27 @@ class Board extends \yii\db\ActiveRecord
 
     public function afterSave ($insert, $changedAttributes)
     {
-        if (!$insert) // Check update record.
-        {
-            // Удаляем старые свойства
-            Attributes::deleteAll(['id_board' => $this->id]);
 
-        }
-        if ($this->property)
-        {
-            // Save attributes from prop
-            foreach ($this->property as $key=>$prop)
+            if ((!$insert)and($this->property)) // Check update record and Property exist
             {
-                $model_attr = new Attributes();
-                $model_attr->id_board = $this->id;
-                $model_attr->id_prop = $key;
-                $model_attr->value = $prop;
-                $model_attr->save();
+                // Удаляем старые свойства
+                Attributes::deleteAll(['id_board' => $this->id]);
+
+            }
+
+            if ($this->property)
+            {
+                // Save attributes from prop
+                foreach ($this->property as $key=>$prop)
+                {
+                    $model_attr = new Attributes();
+                    $model_attr->id_board = $this->id;
+                    $model_attr->id_prop = $key;
+                    $model_attr->value = $prop;
+                    $model_attr->save();
+                }
             }
         }
-    }
+
+
 }
