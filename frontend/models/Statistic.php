@@ -63,10 +63,11 @@ class Statistic extends Board
         $query = Board::find();
         $query->where(['id_user'=> Yii::$app->user->id]);
         $query->joinWith(['idObject', 'idType', 'idTown']);
-        $query->orderBy('date_create DESC');
+
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['date_create' => SORT_DESC]],
         ]);
 
         $dataProvider->sort->attributes['idObject'] = [

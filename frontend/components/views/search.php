@@ -92,7 +92,7 @@ $this->registerJs($script, yii\web\View::POS_HEAD);
                             $input_filed = '<select class="form-control" name="Search[properties]['. $prop['id'] .']"><option value=""> - '. $prop['name']. ' - </option>';
                             foreach ($prop['val'] as $value)
                             {
-                                if ($sel == $value)
+                                if (trim($sel) == trim($value))
                                     $selected = 'selected';
                                 else
                                     $selected = '';

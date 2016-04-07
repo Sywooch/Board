@@ -144,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'showRemove' => true,
                 'showUpload' => false,
             ];
-            $images = $model->getImages();
+            $images = $model->showImages();
             if ($images) {
                     $i = 1;
                     foreach ($images as $img)

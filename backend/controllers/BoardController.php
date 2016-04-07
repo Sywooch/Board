@@ -114,14 +114,7 @@ class BoardController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
-        if ($model)
-        {
-            Attributes::deleteAll(['id_board' => $model->id]);
-            $model->removeImages();
-            $model->delete();
-        }
-
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

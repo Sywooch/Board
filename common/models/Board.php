@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
+ * Основная модель объявлений
  * This is the model class for table "{{%board}}".
  *
  * @property integer $id
@@ -129,6 +130,47 @@ class Board extends \yii\db\ActiveRecord
     }
 
     /**
+     * Костыль надстройка над CostaRico Image.
+     * Пробует получить изображение
+     * Если изображение не удается получить с сервера, возвращает false
+     * @param string $size
+     * @return bool|mixed
+     */
+    public function showImage($size='100x100')
+    {
+        $image = $this->getImage();
+        if (file_exists(Yii::getAlias('@webroot').'/uploadimg/store/'.$image->filePath))
+            return str_replace(Yii::getAlias('@webroot'), '', $image->getPath($size));
+        else
+            return false;
+    }
+
+    /**
+     * Костыль костылей для списка изображений
+     * @return array|bool
+     */
+    public function showImages()
+    {
+        $images = $this->getImages();
+        $arr_object = [];
+        if ($images)
+        {
+            foreach ($images as $img)
+            {
+
+                if (file_exists(Yii::getAlias('@webroot').'/uploadimg/store/'.$img->filePath))
+                {
+                    $arr_object[]= $img;
+                }
+
+            }
+            return $arr_object;
+        }
+        else
+            return false;
+    }
+
+    /**
      * @return array|bool
      */
     public function LoadProperty()
@@ -185,6 +227,7 @@ class Board extends \yii\db\ActiveRecord
     }
 
     /**
+     * Город
      * @return \yii\db\ActiveQuery
      */
     public function getIdTown()
@@ -193,6 +236,7 @@ class Board extends \yii\db\ActiveRecord
     }
 
     /**
+     * Тип: Сдам, Куплю, Сниму, Продам
      * @return \yii\db\ActiveQuery
      */
     public function getIdType()
@@ -228,7 +272,7 @@ class Board extends \yii\db\ActiveRecord
 
     /**
      * @author Nikolay
-     * Список статусов
+     * Список статусов. Активно, Закрыто
      * @return array
      */
     public function AllStatus()
@@ -237,12 +281,24 @@ class Board extends \yii\db\ActiveRecord
         return $status;
     }
 
+    /**
+     * Список вариантов выделения. Без подсветки, Желтое, Красное
+     * @return array
+     */
     public function ListMarked()
     {
         $marked = [self::MARK_DEFAULT=>'Без подсветки', self::MARK_YELLOW => 'Желтое', self::MARK_RED => 'Красная рамка'];
         return $marked;
     }
 
+    /**
+     * Превращение цены в INT
+     * @todo Сделать по нормальному
+     * Установка времени старта и финиша
+     * Привязка пользователя
+     * @param bool $insert
+     * @return bool
+     */
     public function beforeSave($insert)
     {
         if ($this->price)
@@ -260,6 +316,11 @@ class Board extends \yii\db\ActiveRecord
         return true;
     }
 
+    /**
+     * Установка атрибутов для свойств
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
     public function afterSave ($insert, $changedAttributes)
     {
 
@@ -283,6 +344,23 @@ class Board extends \yii\db\ActiveRecord
                 }
             }
         }
+
+
+    /**
+     * Удаление связанных атрибутов, изображений, рекламных блоков
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            Attributes::deleteAll(['id_board' => $this->id]);
+            Reklama::deleteAll(['id_board' => $this->id]);
+            $this->removeImages();
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 }

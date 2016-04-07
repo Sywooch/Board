@@ -17,7 +17,7 @@ use common\models\Board;
 use common\models\Propeties;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
-use yii\data\SqlDataProvider;
+
 
 
 class Search extends Model
@@ -96,35 +96,43 @@ class Search extends Model
             $select = '';
         if($this->properties)
         {
-            $from = '';
-            $where = '';
+
+            $id_arr = [];
+
+
             foreach ($this->properties as $id_prop => $value)
             {
                 if ($value!='') // Атрибут есть, и выбран
                 {
+
                     if ($i>1)
                     {
-                        $and = ' AND ';
-                        $coma = ', ';
+                        // Второй и последующие атрибуты, фильтруем массив
+
+
+                        $attr = Attributes::find()->where(['id_prop'=>$id_prop, 'value'=>trim($value)])->orderBy('id_board')->all();
+                        $tmp_arr = ArrayHelper::map($attr, 'id_board', 'id_board');
+                        $id_arr = array_intersect_key($id_arr, $tmp_arr);
                     }
 
                     else
                     {
-                        $and = '';
-                        $coma = '';
+                        // Первый атрибут, делаем запрос по атрибуту, записываем в массив
+                        $attr = Attributes::find()->where(['id_prop'=>$id_prop, 'value'=>trim($value)])->orderBy('id_board')->all();
+                        $id_arr = ArrayHelper::map($attr, 'id_board', 'id_board');
                     }
-                    $from = ' brd_attributes ta'.$i.$coma. $from;
-                    $where = $where.$and." ta".$i.".id_prop = $id_prop AND ta".$i.".value = '$value' ";
+                    #*/
                     $i++;
+
                 }
+
 
             }
 
-            $select = 'SELECT ta1.id_board FROM '. $from. ' WHERE '.$where.' GROUP BY ta1.id_board';
+
+            $select =  implode(",", $id_arr);
 
         }
-        //echo $select;
-        //die();
 
             /**
              * @todo Сделать поиск через DAO
@@ -147,7 +155,14 @@ class Search extends Model
             $query->andFilterWhere(['<', 'price', $this->price_max]);
             $query->andFilterWhere(['like', Board::tableName().'.name', $this->name]);
             if ($i>1) // Были выбраны атрибуты
-                $query->andOnCondition("id IN ($select)");
+            {
+                if ($select==null)
+                    $query->andOnCondition(' 1=2');
+                else
+                    $query->andOnCondition("id IN ($select)");
+            }
+
+
 
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,

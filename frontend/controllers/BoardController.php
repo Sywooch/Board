@@ -91,6 +91,7 @@ class BoardController extends Controller
         $search->id_town = $board_mail->id_town;
         $search->id_object = $board_mail->id_object;
         $search->id_type = $board_mail->id_type;
+        // Включает отображение формы поиска, с заданными параметрами
         Yii::$app->view->params['searchform'] = $search;
 
         // Подключаем форму для отправки сообщения
@@ -129,7 +130,7 @@ class BoardController extends Controller
     }
 
     /**
-     * Расшируенная статистика, доустпная только для агентств
+     * Расширенная статистика, доустпная только для агентств
      * @return string
      */
     public function actionStatistic()
@@ -144,6 +145,10 @@ class BoardController extends Controller
 
     }
 
+    /**
+     * Первый шаг Подачи объявления. Выбор Типа объявлени и объекта
+     * @return string
+     */
     public function actionStep()
     {
             $type = Type::find()->all();
@@ -155,6 +160,10 @@ class BoardController extends Controller
             ]);
     }
 
+    /**
+     * Личный кабиент пользователя. Завершенные объявления
+     * @return string
+     */
     public function actionEnded()
     {
 
@@ -166,8 +175,8 @@ class BoardController extends Controller
     }
 
     /**
-     * Creates a new Board model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Второй шаг, непосредственно создание объявления
+     * Если всё успешно, отправляет на внутренний просмотр
      * @return mixed
      */
     public function actionCreate()
@@ -350,7 +359,7 @@ class BoardController extends Controller
     }
 
     /**
-     * List of my ads
+     * Личный кабинет пользователя. Список активных объявление пользователя
      * @return string
      */
     public function actionMy()
@@ -363,7 +372,7 @@ class BoardController extends Controller
     }
 
     /**
-     * Close active Ad
+     * Личный кабинет. Закрытие объявления
      * @param $id
      * @return \yii\web\Response
      */
@@ -428,12 +437,8 @@ class BoardController extends Controller
 
         if ($model->id_user!=Yii::$app->user->id)
             return $this->redirect(['site/index']);
-        if ($model)
-        {
-            Attributes::deleteAll(['id_board' => $model->id]);
-            $model->removeImages();
-            $model->delete();
-        }
+
+        $model->delete();
 
 
         return $this->redirect(['ended']);
@@ -451,7 +456,7 @@ class BoardController extends Controller
         if (($model = Board::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Объявление с данным номером не найдено. Возможно оно удалено, либо закрыто');
         }
     }
 }

@@ -15,12 +15,10 @@ use yii\helpers\Url;
     <div class="media">
         <p class="pull-left">
             <?php
-            $image = $model->getImage();
-
-            if (file_exists(Yii::getAlias('@webroot').'/uploadimg/store/'.$image->filePath))
+            $image = $model->showImage();
+            if ($image)
             {
-
-                    echo '<img class="img-rounded" src="'.str_replace(Yii::getAlias('@webroot'), '', $image->getPath('100x100')).'"  />';
+                    echo '<img class="img-rounded" src="'.$image.'"  />';
             }
 
             ?>
