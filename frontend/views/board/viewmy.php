@@ -66,6 +66,42 @@ $this->registerJs($script, yii\web\View::POS_END);
         ?>
     </div>
     <div class="col-md-4">
+
+
+        <?php if ($model->active())
+        {
+            echo Html::a('<span class="glyphicon glyphicon-pencil"></span> Редактировать объявление',  ['update', 'id' => $model->id], [
+                'class' => 'btn btn-info',
+                'data-toggle'=>"tooltip",
+                'data-placement'=>"left",
+                'title'=>"Редактировать"
+            ] ). '<br /><br />';
+            echo Html::a('<span class="glyphicon glyphicon-remove"></span> Закрыть объявление',  ['close', 'id' => $model->id], ['class' => 'btn btn-danger',
+                'data-toggle'=>"tooltip", 'title'=>"Закрыть",
+                'data' => [
+                    'confirm' => 'Закрыть объявление?',
+
+                ],] );
+        }
+        else {
+            echo Html::a('<span class="glyphicon glyphicon-repeat" ></span> Опубликовать объявление',  ['public', 'id' => $model->id], [
+                'class' => 'btn btn-success', 'data-toggle'=>"tooltip", 'title'=>"Опубликовать",
+                'data' => [
+
+                    'confirm' => 'Опубликовать?',
+
+                ],] ). '<br /><br />';
+
+            echo Html::a('<span class="glyphicon glyphicon-remove-circle" ></span> Удалить объявление безвозвратно', ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger',  'data-toggle'=>"tooltip", 'title'=>"Удалить объявление безвозвратно",
+                'data' => [
+                    'confirm' => 'Удалить объявление безвозвратно?',
+                    'method' => 'post',
+                ],
+            ]);
+        }
+        ?>
+        <hr />
         <?php if (Yii::$app->user->can('agency')) {
             $form = ActiveForm::begin(); ?>
             <h3>Выделить объявление</h3>

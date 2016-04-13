@@ -103,6 +103,111 @@ class BoardController extends Controller
             ]);
         }
     }
+     */
+
+
+    /**
+     * Updates an existing Board model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        // OldImage
+        $old_images = $model->getImages();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // Перебираем массив с изображениями, если отмечено удаление то удаляем
+            $arrimg = [];
+            $i = 0;
+            foreach ($old_images as $images)
+            {
+                $i++;
+                $arrimg[$i] = $images;
+            }
+            if (($model->delimg1==1)&&isset($arrimg[1]))
+            {
+                $model->removeImage($arrimg[1]);
+            }
+            if (($model->delimg2==1)&&isset($arrimg[2]))
+            {
+                $model->removeImage($arrimg[2]);
+            }
+            if (($model->delimg3==1)&&isset($arrimg[3]))
+            {
+                $model->removeImage($arrimg[3]);
+            }
+            if (($model->delimg4==1)&&isset($arrimg[5]))
+            {
+                $model->removeImage($arrimg[4]);
+            }
+            if (($model->delimg1==5)&&isset($arrimg[5]))
+            {
+                $model->removeImage($arrimg[5]);
+            }
+            // Before we need check delete image
+
+            $model->image1 = UploadedFile::getInstance($model, 'image1');
+            if ($model->image1) {
+                //$model->removeImage($model->image1);
+                $path = Yii::getAlias('@frontend/web/uploadimg/').$model->generateFileName().'.'.$model->image1->extension;
+                $model->image1->saveAs($path);
+                $model->attachImage($path);
+                unlink($path);
+            }
+
+            $model->image2 = UploadedFile::getInstance($model, 'image2');
+            if ($model->image2) {
+                $path = Yii::getAlias('@frontend/web/uploadimg/').$model->generateFileName().'.'.$model->image2->extension;
+                $model->image2->saveAs($path);
+                $model->attachImage($path);
+                unlink($path);
+            }
+            $model->image3 = UploadedFile::getInstance($model, 'image3');
+            if ($model->image3) {
+                $path = Yii::getAlias('@frontend/web/uploadimg/').$model->generateFileName().'.'.$model->image3->extension;
+                $model->image3->saveAs($path);
+                $model->attachImage($path);
+                unlink($path);
+            }
+            $model->image4 = UploadedFile::getInstance($model, 'image4');
+            if ($model->image4) {
+                $path = Yii::getAlias('@frontend/web/uploadimg/').$model->generateFileName().'.'.$model->image4->extension;
+                $model->image4->saveAs($path);
+                $model->attachImage($path);
+                unlink($path);
+            }
+            $model->image5 = UploadedFile::getInstance($model, 'image5');
+            if ($model->image5) {
+                $path = Yii::getAlias('@frontend/web/uploadimg/').$model->generateFileName().'.'.$model->image5->extension;
+                $model->image5->saveAs($path);
+                $model->attachImage($path);
+                unlink($path);
+            }
+            // Устанавливаем первую картинку главной если сбилась
+            /*
+            foreach ($model->getImages() as $new_images)
+            {
+                if ($new_images->id) {
+                    $model->setMainImage($new_images);
+                }
+                break;
+            }
+            */
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            if ($model->id_type==Board::TYPE_SALE)
+                $model->scenario = Board::SCENARIO_SALE;
+            if ($model->id_type==Board::TYPE_RENT)
+                $model->scenario = Board::SCENARIO_RENT;
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
 
 
 

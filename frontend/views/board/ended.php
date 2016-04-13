@@ -28,14 +28,14 @@ foreach ($models as $model)
     ?>
     <div class="row">
 
-        <div class="col-md-8">
+        <div class="col-md-10">
             <?php
             echo $this->render('_listad', [
                 'model' => $model,
             ]);
             ?>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
 
             <br />
             <?=Html::a('<span class="glyphicon glyphicon-repeat" ></span>',  ['public', 'id' => $model->id], [
@@ -46,10 +46,10 @@ foreach ($models as $model)
 
                 ],] )?>
             <br /><br />
-            <?= Html::a('<span class="glyphicon glyphicon-remove" ></span>', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',  'data-toggle'=>"tooltip", 'title'=>"Удалить объявеление",
+            <?= Html::a('<span class="glyphicon glyphicon-remove-circle" ></span>', ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger',  'data-toggle'=>"tooltip", 'title'=>"Удалить объявление безвозвратно",
                 'data' => [
-                    'confirm' => 'Вы уверены?',
+                    'confirm' => 'Удалить объявление безвозвратно?',
                     'method' => 'post',
                 ],
             ]) ?>

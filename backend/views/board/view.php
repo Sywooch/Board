@@ -136,6 +136,10 @@ $this->registerJs($script, yii\web\View::POS_END);
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], [
+            'class' => 'btn btn-info',
+
+        ]) ?>
 
 
         <?= Html::a('Удалить объявление', ['delete', 'id' => $model->id], [

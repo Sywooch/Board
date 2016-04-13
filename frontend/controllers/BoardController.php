@@ -167,12 +167,28 @@ class BoardController extends Controller
     public function actionEnded()
     {
 
-        $models = Board::find()->where(['id_user'=>Yii::$app->user->identity->id, 'enable'=>0])->orderBy('date_create DESC')->all();
+        $current_time = date('Y-m-d H:i:s');
+        $models = Board::find()->where("`id_user`= ".Yii::$app->user->identity->id."  AND (`date_finish` < '$current_time' OR `enable`=0 )" )->orderBy('date_create DESC')->all();
 
         return $this->render('ended', [
             'models' => $models,
         ]);
     }
+
+    /**
+     * Личный кабинет пользователя. Список активных объявление пользователя
+     * @return string
+     */
+    public function actionMy()
+    {
+        $current_time = date('Y-m-d H:i:s');
+        $models = Board::find()->where("`id_user`= ".Yii::$app->user->identity->id."  AND `date_finish` >= '$current_time' AND `enable`=1")->orderBy('date_create DESC')->all();
+
+        return $this->render('my', [
+            'models' => $models,
+        ]);
+    }
+
 
     /**
      * Второй шаг, непосредственно создание объявления
@@ -358,18 +374,6 @@ class BoardController extends Controller
         }
     }
 
-    /**
-     * Личный кабинет пользователя. Список активных объявление пользователя
-     * @return string
-     */
-    public function actionMy()
-    {
-        $models = Board::find()->where(['id_user'=>Yii::$app->user->identity->id, 'enable'=>1])->orderBy('date_create DESC')->all();
-
-        return $this->render('my', [
-            'models' => $models,
-        ]);
-    }
 
     /**
      * Личный кабинет. Закрытие объявления
@@ -398,7 +402,21 @@ class BoardController extends Controller
         if ($model->id_user!=Yii::$app->user->id)
             return $this->redirect(['site/index']);
 
-        Board::updateAll(['enable'=> 1], ['id'=>$id]);
+        if (strtotime($model->date_finish)<time())
+        {
+            // Поднимаем дату
+            $start_time = time()+Yii::$app->params['brd_start'];
+            $finish_time = time()+Yii::$app->params['brd_finish'];
+            $date_create = date('Y-m-d H:i:s', $start_time);
+            $date_finish = date('Y-m-d H:i:s', $finish_time);
+            Board::updateAll(['enable'=> 1, 'date_create'=>$date_create, 'date_finish'=>$date_finish], ['id'=>$id]);
+        }
+        else
+        {
+            // Меняем статус на активный
+            Board::updateAll(['enable'=> 1], ['id'=>$id]);
+        }
+
 
         return $this->redirect(['update', 'id' => $id]);
     }

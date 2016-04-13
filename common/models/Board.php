@@ -244,10 +244,43 @@ class Board extends \yii\db\ActiveRecord
         return $this->hasOne(Type::className(), ['id' => 'id_type']);
     }
 
+    /**
+     * @author Nikolay
+     * Generate temp file name
+     * @return string
+     */
     public function generateFileName()
     {
         $name = uniqid();
         return $name;
+    }
+
+    public function duration()
+    {
+        $current_time = time();
+        $start = strtotime($this->date_create);
+        $finish = strtotime($this->date_finish);
+        $time_duration = Yii::$app->params['brd_finish'] - Yii::$app->params['brd_start'];
+        if ($current_time<$start)
+            return ['text'=> 'Объявление еще не опубликовано', 'percent' => 100, 'class'=>'progress-bar-info'];
+        if (($current_time>=$start)and ($current_time<= $finish))
+        {
+            $exp_time = $finish - $current_time;
+            $percent = intval($exp_time/$time_duration*100);
+            $exp_days = intval($exp_time/(3600*24));
+
+            if (($percent>5)&&($percent<25))
+                $style = 'progress-bar-warning';
+            elseif ($percent<5)
+                $style = 'progress-bar-danger';
+            else
+                $style = 'progress-bar-success';
+            return ['text' => 'Осталось <strong>'.$exp_days. '</strong> дней', 'percent'=>$percent, 'class'=>$style];
+
+        }
+        if ($current_time>$finish)
+            return ['text' => 'Срок объявления истек', 'percent'=>0, 'class'=>'progress-bar-danger'];
+
     }
 
     /**

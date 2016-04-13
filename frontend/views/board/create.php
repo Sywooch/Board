@@ -18,6 +18,24 @@ use kartik\file\FileInput;
 $this->title = 'Подать объявление. Шаг 2';
 $this->params['breadcrumbs'][] = $this->title;
 
+$script = <<< JS
+
+
+$(function(){
+     $(".btn-success").click(function () {
+       $(".btn-success").attr("disabled", true);
+       $('#w0').submit();
+      $('input, textarea, select').click(function(){
+        $(".btn-success").attr("disabled", false);
+      })
+
+     });
+   });
+
+
+
+JS;
+$this->registerJs($script, yii\web\View::POS_END);
 
 ?>
 

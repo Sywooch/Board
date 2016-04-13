@@ -30,14 +30,14 @@ foreach ($models as $model)
     ?>
     <div class="row">
 
-        <div class="col-md-8">
+        <div class="col-md-10">
             <?php
             echo $this->render('_listad', [
                 'model' => $model,
             ]);
             ?>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
             <?=Html::a('<span class="glyphicon glyphicon-pencil"></span>',  ['update', 'id' => $model->id], [
                 'class' => 'btn btn-info',
                 'data-toggle'=>"tooltip",
