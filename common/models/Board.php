@@ -97,7 +97,7 @@ class Board extends \yii\db\ActiveRecord
            // [['price'], 'string', 'max'=>15],
             [['name'], 'string', 'max' => 50],
             [['address'], 'string', 'max' => 100],
-            [['image1', 'image2', 'image3', 'image4', 'image5', ], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['image1', 'image2', 'image3', 'image4', 'image5', ], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
@@ -280,6 +280,22 @@ class Board extends \yii\db\ActiveRecord
         }
         if ($current_time>$finish)
             return ['text' => 'Срок объявления истек', 'percent'=>0, 'class'=>'progress-bar-danger'];
+
+    }
+
+    /**
+     * Отправить письмо об новом объявление
+     * @author Nikolay
+     * @return bool
+     */
+    public function mailNewBoard()
+    {
+
+        return \Yii::$app->mailer->compose(['html' => 'newmail-html', 'text' => 'newmail-text'], ['board' => $this])
+            ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
+            ->setTo(\Yii::$app->params['owner_email'])
+            ->setSubject('Новое объявление ' . \Yii::$app->name)
+            ->send();
 
     }
 

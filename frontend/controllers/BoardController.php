@@ -152,7 +152,7 @@ class BoardController extends Controller
     public function actionStep()
     {
             $type = Type::find()->all();
-            $object = Object::find()->orderBy('sort')->all();
+            $object = Object::ActiveObjModels();
 
             return $this->render('step', [
                 'type' => $type,
@@ -244,7 +244,8 @@ class BoardController extends Controller
                 $model->attachImage($path);
                 unlink($path);
             }
-            // Save attributes
+            // Send messages
+            $model->mailNewBoard();
 
 
             // Save redirect

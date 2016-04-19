@@ -146,7 +146,7 @@ $this->params['breadcrumbs'][] = 'Изменить';
                         'showRemove' => true,
                         'showUpload' => false,
                         'initialPreview'=>[
-                            Html::img(str_replace(Yii::getAlias('@webroot'), '', $img->getPath('100x100')), ['class'=>'file-preview-image'])
+                            Html::img(str_replace(Yii::getAlias('@frontend'), '', $img->getPath('100x100')), ['class'=>'file-preview-image'])
                         ]];
                     $i++;
                 }

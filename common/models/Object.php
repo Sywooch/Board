@@ -11,12 +11,17 @@ use yii\helpers\ArrayHelper;
  * @property integer $id
  * @property string $name
  * @property integer $sort
+ * @property integer $enable
  *
  * @property Board[] $boards
  * @property Propeties[] $propeties
  */
 class Object extends \yii\db\ActiveRecord
 {
+
+    const STATUS_DISABLE = 0;
+    const STATUS_ENABLE = 1;
+
     /**
      * @inheritdoc
      */
@@ -31,8 +36,8 @@ class Object extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sort'], 'integer'],
-            [['name'], 'required'],
+            [['sort', 'enable'], 'integer'],
+            [['name', 'enable'], 'required'],
             [['name'], 'string', 'max' => 50]
         ];
     }
@@ -45,8 +50,20 @@ class Object extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Имя',
-            'sort' => 'Сортировка'
+            'sort' => 'Сортировка',
+            'enable' => 'Включен'
         ];
+    }
+
+    /**
+     * @author Nikolay
+     * Список статусов. Активно, Закрыто
+     * @return array
+     */
+    public function AllStatus()
+    {
+        $status = [self::STATUS_ENABLE=>'Активно', self::STATUS_DISABLE => 'Закрыто'];
+        return $status;
     }
 
     /**
@@ -65,9 +82,14 @@ class Object extends \yii\db\ActiveRecord
         return $this->hasMany(Propeties::className(), ['id_object' => 'id']);
     }
 
-    public function AllObjects()
+    public static function AllObjects()
     {
-        $data = Object::find()->all();
+        $data = Object::find()->where(['enable' => 1])->orderBy('sort')->all();
         return ArrayHelper::map($data,'id','name');
+    }
+
+    public static function ActiveObjModels()
+    {
+        return Object::find()->where(['enable' => 1])->orderBy('sort')->all();
     }
 }

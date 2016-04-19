@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Object */
 
-$this->title = 'Create Object';
-$this->params['breadcrumbs'][] = ['label' => 'Objects', 'url' => ['index']];
+$this->title = 'Создать объект';
+$this->params['breadcrumbs'][] = ['label' => 'Объекты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="object-create">

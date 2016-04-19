@@ -80,7 +80,7 @@ class SiteController extends Controller
         Yii::$app->view->params['searchform'] = $model;
 
         $current_time = date('Y-m-d H:i:s');
-        $last = Board::find()->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time' AND `enable` =1")->orderBy('date_create DESC')->limit(8)->all();
+        $last = Board::find()->where(" `date_create` <= '$current_time' AND `date_finish` >= '$current_time' AND `enable` =1")->orderBy('date_create DESC')->limit(20)->all();
 
 
         return $this->render('index', [

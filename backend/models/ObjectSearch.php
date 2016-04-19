@@ -18,7 +18,7 @@ class ObjectSearch extends Object
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'sort'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -57,6 +57,7 @@ class ObjectSearch extends Object
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'sort' => $this->sort,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

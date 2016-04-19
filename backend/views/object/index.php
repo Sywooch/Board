@@ -6,6 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ObjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $model common\models\Object */
 
 $this->title = 'Объекты';
 $this->params['breadcrumbs'][] = $this->title;
@@ -22,6 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'rowOptions' => function ($model){
+
+            if ($model->enable==$model::STATUS_DISABLE) {
+                return ['class' => 'danger'];
+            }
+
+        },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
