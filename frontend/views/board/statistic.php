@@ -13,6 +13,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\BoardSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $model_user common\models\User */
 
 $this->title = 'Статистика';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,19 +21,22 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <ul class="nav nav-tabs">
-        <li><?=Html::a('Мои объявления - <strong>Активные</strong>',  ['my'] )?></li>
-        <li><?=Html::a('Мои объявления - <strong>Завершенные</strong>',  ['ended'] )?></li>
-        <li class="active"><a href="#">Мои объявления - <strong>Статистика</strong></a></li>
+        <li><?=Html::a('<strong>Активные</strong>',  ['my'] )?></li>
+        <li><?=Html::a('<strong>Завершенные</strong>',  ['ended'] )?></li>
+        <li class="active"><a href="#"><strong>Статистика</strong></a></li>
 
     </ul>
 
 </div>
 <div class="board-index">
+    <?php
+    if ($model_user->isAgency())
+    {
+        ?>
+        <h1><?= Html::encode($this->title) ?></h1>
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
-
-    <?= GridView::widget([
+        <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'rowOptions' => function ($model){
@@ -92,6 +96,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+
+        <?php
+    }
+    else
+    {
+        echo '<h1 class="text-center">Срок Вашей подписки истек</h1>';
+    }
+    ?>
 
 </div>
 

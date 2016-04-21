@@ -32,12 +32,24 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
      </p>
 <?php
-if ($model->agency)
+if ($model->role==$model::ROLE_AGENCY)
 {
-    echo '<p class="lead">Агентство: '. $model->agency .'</p>';
+    $duration = $model->expireAgency();
+    ?>
+    <p class="lead">Агентство: <?=$model->agency?></p>
+    <p class="lead">Срок истекает <strong><?= Yii::$app->formatter->asDate($model->date_expire, "php: d F H:i ") ?></strong></p>
+    <div class="row">
+        <div class="col-md-3">
+        <p class="lead"><?=$duration['text']?></p>
+            <div class="progress">
+                <div class="progress-bar <?=$duration['class']?>" role="progressbar" aria-valuenow="<?= $duration['percent']?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $duration['percent']?>%">
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
 }
 ?>
-
 <p>
     <?= Html::a('Изменить данные', ['user/update'], ['class' => 'btn btn-info']) ?>
 

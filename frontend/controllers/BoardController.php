@@ -6,6 +6,7 @@ use app\models\MailForm;
 use common\models\Object;
 use common\models\Propeties;
 use common\models\Type;
+use common\models\User;
 use frontend\models\Search;
 use frontend\models\Statistic;
 use Yii;
@@ -137,10 +138,12 @@ class BoardController extends Controller
     {
         $searchModel = new Statistic();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model_user = User::findIdentity(Yii::$app->user->identity->id);
 
         return $this->render('statistic', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model_user' => $model_user,
         ]);
 
     }

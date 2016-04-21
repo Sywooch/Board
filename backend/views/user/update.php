@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $form yii\widgets\ActiveForm */
 /* @var $this yii\web\View */
@@ -27,7 +28,21 @@ $this->params['breadcrumbs'][] = 'Изменить';
 
         <?= $form->field($model, 'role')->dropDownList($model->getAllRoles()) ?>
 
+        <?= DatePicker::widget([
+            'model' => $model,
+            'attribute' => 'date_expire',
+            'language' => 'ru',
+            'dateFormat' => 'yyyy-MM-dd',
+            'options' => [
+                'class' => 'form-control',
+            ]
+
+        ]);
+        ?>
+
         <?= $form->field($model, 'status')->radioList($model->AllStatus()) ?>
+
+
 
         <div class="form-group">
             <?= Html::submitButton('Изменить', ['class' =>  'btn btn-primary']) ?>

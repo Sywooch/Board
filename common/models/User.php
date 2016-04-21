@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\rbac\Role;
 use yii\web\IdentityInterface;
 
 /**
@@ -25,12 +26,17 @@ use yii\web\IdentityInterface;
  * @property string $agency
  * @property string $role
  * @property string $valid_token
+ * @property integer $day_expire
+ * @property string $date_expire
  */
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    const ROLE_ADMIN = 'admin';
+    const ROLE_MANAGER = 'manager';
+    const ROLE_AGENCY = 'agency';
     const ROLE_DEFAULT = 'user';
 
     // Need for change password
@@ -77,6 +83,9 @@ class User extends ActiveRecord implements IdentityInterface
             [['agency', 'fio'], 'string', 'max' => 50],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+
+            [['date_expire'], 'string', 'max' => 50],
+            [['day_expire'], 'integer'],
         ];
     }
 
@@ -94,6 +103,7 @@ class User extends ActiveRecord implements IdentityInterface
             'role' => 'Права',
             'agency' => 'Агентство',
             'status' => 'Статус пользователя',
+            'date_expire' => 'Дата истечения',
         ];
     }
 
@@ -300,6 +310,53 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Определяет, хватает ли прав на агентство, и не вышел ли срок
+     * @return bool
+     */
+    public function isAgency()
+    {
+        if (($this->role==self::ROLE_ADMIN)or($this->role==self::ROLE_MANAGER)) // Права выше агентства
+            return true;
+        elseif (($this->role==self::ROLE_AGENCY)&&(strtotime($this->date_expire)>time()))
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * Срок действия прав агентства
+     * @return array|bool
+     */
+    public function expireAgency()
+    {
+        if ($this->role==self::ROLE_AGENCY){
+            $current_time = time();
+
+            $finish = strtotime($this->date_expire);
+            $exp_time = $finish - $current_time;
+
+            $exp_days = intval($exp_time/(3600*24));
+            $percent = intval($exp_days/30*100);
+            if ($exp_days<0)
+                return ['text' => 'Подписка истекла', 'percent'=>0, 'class'=>'progress-bar-warning'];
+            else
+            {
+                if (($percent>5)&&($percent<25))
+                    $style = 'progress-bar-warning';
+                elseif ($percent<5)
+                    $style = 'progress-bar-danger';
+                else
+                    $style = 'progress-bar-success';
+                return ['text' => 'Осталось <strong>'.$exp_days. '</strong> дней', 'percent'=>$percent, 'class'=>$style];
+            }
+
+
+        }
+        else
+            return false;
+    }
+
+    /**
      * Set role in Base
      * @param bool $insert
      * @return bool
@@ -309,6 +366,17 @@ class User extends ActiveRecord implements IdentityInterface
         parent::beforeSave($insert);
         if ($this->isNewRecord)
         {
+             // При регистрации. Если роль Агентство, устаналиваем срок истечения, через месяц
+
+            // Если день истечения больше 28, то устанавливаем 28 число
+            $current_day = intval(date('j'));
+            if ($current_day>28)
+                $this->day_expire = 28;
+            else
+                $this->day_expire = $current_day;
+
+            $expire_date = time()+3600*24*30;
+            $this->date_expire = date('Y-m-d H:i:s', $expire_date);
 
             $this->valid_token = $this->generateValidToken();
             $this->role = User::ROLE_DEFAULT;
