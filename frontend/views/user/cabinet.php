@@ -37,7 +37,7 @@ if ($model->role==$model::ROLE_AGENCY)
     $duration = $model->expireAgency();
     ?>
     <p class="lead">Агентство: <?=$model->agency?></p>
-    <p class="lead">Срок истекает <strong><?= Yii::$app->formatter->asDate($model->date_expire, "php: d F H:i ") ?></strong></p>
+    <p class="lead">Статус "Агентство" истекает <strong><?= Yii::$app->formatter->asDate($model->date_expire, "php: d F  ") ?></strong></p>
     <div class="row">
         <div class="col-md-3">
         <p class="lead"><?=$duration['text']?></p>

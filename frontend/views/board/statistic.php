@@ -10,6 +10,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\BoardSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,7 +18,7 @@ use yii\grid\GridView;
 
 $this->title = 'Статистика';
 $this->params['breadcrumbs'][] = $this->title;
-
+$duration = $model_user->expireAgency();
 ?>
 <div class="row">
     <ul class="nav nav-tabs">
@@ -29,11 +30,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <div class="board-index">
+    <div class="row">
+        <div class="col-md-6">
+            <h1><?= Html::encode($this->title) ?></h1>
+        </div>
+        <div class="col-md-6">
+            <h4><?=$duration['text']?> до окончания подписки <?=Html::a('подробнее', ['/user/cabinet'])?></h4>
+            <div class="progress">
+                <div class="progress-bar <?=$duration['class']?>" role="progressbar" aria-valuenow="<?= $duration['percent']?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $duration['percent']?>%">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
     <?php
     if ($model_user->isAgency())
     {
         ?>
-        <h1><?= Html::encode($this->title) ?></h1>
+
 
 
         <?= GridView::widget([

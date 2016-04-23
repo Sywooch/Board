@@ -27,18 +27,24 @@ $this->params['breadcrumbs'][] = 'Изменить';
         <?= $form->field($model, 'agency')->textInput() ?>
 
         <?= $form->field($model, 'role')->dropDownList($model->getAllRoles()) ?>
+        <div class="form-group">
+            <label class="control-label"><?=$model->getAttributeLabel('date_expire')?></label>
+            <?= DatePicker::widget([
+                'model' => $model,
+                'attribute' => 'date_expire',
+                'language' => 'ru',
+                'dateFormat' => 'yyyy-MM-dd',
+                'options' => [
+                    'class' => 'form-control',
+                ]
 
-        <?= DatePicker::widget([
-            'model' => $model,
-            'attribute' => 'date_expire',
-            'language' => 'ru',
-            'dateFormat' => 'yyyy-MM-dd',
-            'options' => [
-                'class' => 'form-control',
-            ]
+            ]);
+            ?>
+            <div class="help-block">
+                Кнопка ПРОДЛИТЬ будет проделвать подписку на месяц на тоже самое число
+            </div>
+        </div>
 
-        ]);
-        ?>
 
         <?= $form->field($model, 'status')->radioList($model->AllStatus()) ?>
 

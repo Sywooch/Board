@@ -357,6 +357,24 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @return bool|int
+     */
+    public function expireDayAgency()
+    {
+        if ($this->role==self::ROLE_AGENCY){
+            $current_time = time();
+            $finish = strtotime($this->date_expire);
+
+            $exp_time = $finish - $current_time;
+            $exp_days = intval($exp_time/(3600*24));
+
+            return $exp_days;
+        }
+        else
+            return false;
+    }
+
+    /**
      * Set role in Base
      * @param bool $insert
      * @return bool
