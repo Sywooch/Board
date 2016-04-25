@@ -28,6 +28,7 @@ use yii\web\IdentityInterface;
  * @property string $valid_token
  * @property integer $day_expire
  * @property string $date_expire
+ * @property integer $billing
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -42,6 +43,9 @@ class User extends ActiveRecord implements IdentityInterface
     // Need for change password
     public $new_password;
     public $old_password;
+
+    public $money_info;
+    public $money_value;
 
     /**
      * @inheritdoc
@@ -85,7 +89,9 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
 
             [['date_expire'], 'string', 'max' => 50],
-            [['day_expire'], 'integer'],
+            [['day_expire', 'billing', 'money_value'], 'integer'],
+
+            [['money_info'], 'string', 'max' => 255],
         ];
     }
 
@@ -104,6 +110,9 @@ class User extends ActiveRecord implements IdentityInterface
             'agency' => 'Агентство',
             'status' => 'Статус пользователя',
             'date_expire' => 'Дата истечения',
+            'billing' => 'Денег на счету',
+            'money_info' => 'Комментарий',
+            'money_value' => 'Сумма',
         ];
     }
 
@@ -372,6 +381,25 @@ class User extends ActiveRecord implements IdentityInterface
         }
         else
             return false;
+    }
+
+    public function giftMoney()
+    {
+        // Создаем новую запись в учете денег
+        $money =  new Money();
+        $money->complete = $money::COMPLETE_SUCCESS;
+        $money->info = $this->money_info;
+        $money->value = $this->money_value;
+        $money->id_user = $this->id;
+        if ($money->save())
+        {
+            $this->billing = $this->billing+$this->money_value;
+            return true;
+        }
+        else
+            return false;
+
+        // Обновляем сумму в текущей модели
     }
 
     /**

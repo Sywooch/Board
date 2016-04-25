@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use backend\models\MoneySearch;
+use common\models\Money;
 use Yii;
 use common\models\User;
 use backend\models\UserSearch;
@@ -61,9 +63,25 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+
+        $searchMoney = new MoneySearch();
+        $searchMoney->id_user = $id;
+        $moneyProvider = $searchMoney->searchByUser(Yii::$app->request->queryParams);
+
+
+        if ($model->load(Yii::$app->request->post()) && $model->giftMoney() && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('view', [
+                'model' => $model,
+                'searchMoney' => $searchMoney,
+                'moneyProvider' => $moneyProvider,
+
+            ]);
+        }
+
+
     }
 
     /**
