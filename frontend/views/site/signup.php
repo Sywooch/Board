@@ -48,5 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?php ActiveForm::end(); ?>
         </div>
+        <div class="col-md-6">
+            
+        </div>
     </div>
 </div>

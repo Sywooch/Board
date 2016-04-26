@@ -182,8 +182,19 @@ class SiteController extends Controller
             }
         }
 
+        $text = '';
+
+        $model_info = Content::find()->where(['page' => Content::PAGE_ABOUT, 'position'=> Content::POS_MAIN])->one();
+
+        if ($model_info)
+        {
+
+            $text = $model_info->text;
+        }
+
         return $this->render('signup', [
             'model' => $model,
+            'text' => $text,
         ]);
     }
 

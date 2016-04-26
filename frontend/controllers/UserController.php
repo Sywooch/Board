@@ -14,7 +14,7 @@ use common\models\Type;
 use common\models\User;
 use Yii;
 use common\models\Board;
-
+use backend\models\MoneySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -57,10 +57,15 @@ class UserController extends Controller
     public function actionCabinet()
     {
         $model = $this->findModel(Yii::$app->user->id);
+        $searchMoney = new MoneySearch();
+        $searchMoney->id_user = Yii::$app->user->id;
+        $moneyProvider = $searchMoney->searchByUser(Yii::$app->request->queryParams);
 
 
             return $this->render('cabinet', [
                 'model' => $model,
+                'searchMoney' => $searchMoney,
+                'moneyProvider' => $moneyProvider,
             ]);
 
     }
